@@ -1,0 +1,205 @@
+/* src/Components/ImageUploader/ImageUploader.css */
+
+.ImageUploader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.ImageUploader-label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   ZONA DE DROP
+   ============================================================ */
+.ImageUploader-dropzone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-xl) var(--space-lg);
+  background: var(--color-bg);
+  border: 2px dashed var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  text-align: center;
+  transition:
+    border-color var(--transition-base),
+    background-color var(--transition-base),
+    transform var(--transition-fast);
+}
+
+.ImageUploader-dropzone:hover {
+  border-color: var(--gold-500);
+  background: var(--color-bg-secondary);
+}
+
+.ImageUploader-dropzone.is-dragOver {
+  border-color: var(--gold-500);
+  background: rgba(212, 175, 55, 0.08);
+  transform: scale(1.01);
+}
+
+.ImageUploader-dropzone.is-uploading {
+  cursor: wait;
+  border-color: var(--gold-500);
+}
+
+.ImageUploader-icon {
+  font-size: 2rem;
+  color: var(--gold-500);
+}
+
+.ImageUploader-spinner {
+  font-size: 2rem;
+  color: var(--gold-500);
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.ImageUploader-text {
+  color: var(--color-text);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.ImageUploader-text strong {
+  color: var(--gold-500);
+}
+
+.ImageUploader-hint {
+  color: var(--color-text-subtle);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+/* ============================================================
+   PREVIEW
+   ============================================================ */
+.ImageUploader-preview {
+  position: relative;
+  width: 100%;
+  max-width: 220px;
+  aspect-ratio: 1 / 1;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg-secondary);
+}
+
+.ImageUploader-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.ImageUploader-previewActions {
+  position: absolute;
+  top: var(--space-sm);
+  right: var(--space-sm);
+  display: flex;
+  gap: 4px;
+}
+
+.ImageUploader-actionBtn {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  backdrop-filter: blur(6px);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.ImageUploader-actionBtn:hover {
+  transform: scale(1.1);
+}
+
+.ImageUploader-actionBtn.change {
+  background: rgba(10, 10, 10, 0.7);
+}
+
+.ImageUploader-actionBtn.change:hover {
+  background: var(--gold-500);
+  color: var(--neutral-900);
+}
+
+.ImageUploader-actionBtn.remove {
+  background: rgba(200, 16, 46, 0.9);
+}
+
+.ImageUploader-actionBtn.remove:hover {
+  background: var(--color-primary-hover);
+}
+
+/* ============================================================
+   DIVISOR "O"
+   ============================================================ */
+.ImageUploader-or {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-subtle);
+  font-size: 0.75rem;
+}
+
+.ImageUploader-or::before,
+.ImageUploader-or::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--color-border);
+}
+
+/* ============================================================
+   INPUT DE URL
+   ============================================================ */
+.ImageUploader-url {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base);
+}
+
+.ImageUploader-url:focus-within {
+  border-color: var(--gold-500);
+}
+
+.ImageUploader-url > svg {
+  color: var(--color-text-subtle);
+  flex-shrink: 0;
+}
+
+.ImageUploader-url input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  min-width: 0;
+}
+
+.ImageUploader-url input::placeholder {
+  color: var(--color-text-subtle);
+}
