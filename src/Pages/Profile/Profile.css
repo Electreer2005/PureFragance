@@ -1,0 +1,411 @@
+/* src/Pages/Profile/Profile.css */
+
+.Profile-container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.Profile-loading {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   HEADER DEL PERFIL
+   ============================================================ */
+.Profile-header {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: background-color var(--transition-base);
+}
+
+.Profile-avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #fff;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+  box-shadow: var(--shadow-md);
+  flex-shrink: 0;
+}
+
+.Profile-avatar.is-guest {
+  background: linear-gradient(135deg, var(--color-neutral-500), var(--color-neutral-700));
+  font-size: 2rem;
+}
+
+.Profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+  flex: 1;
+}
+
+.Profile-info h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.Profile-email {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text-muted);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Contenedor de badges */
+.Profile-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin-top: var(--space-xs);
+}
+
+.Profile-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  width: fit-content;
+}
+
+.Profile-badge.guest {
+  background: rgba(107, 107, 107, 0.15);
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+}
+
+.Profile-badge.admin {
+  background: rgba(200, 16, 46, 0.12);
+  color: var(--color-primary);
+  border: 1px solid var(--color-primary);
+}
+
+.Profile-badge.user {
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-600);
+  border: 1px solid var(--gold-500);
+}
+
+/* Botón editar (arriba a la derecha) */
+.Profile-editBtn {
+  position: absolute;
+  top: var(--space-md);
+  right: var(--space-md);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition-base), border-color var(--transition-base),
+              background-color var(--transition-base);
+}
+
+.Profile-editBtn:hover {
+  color: var(--gold-500);
+  border-color: var(--gold-500);
+  background: rgba(212, 175, 55, 0.08);
+}
+
+/* ============================================================
+   BANNER PARA INVITADOS
+   ============================================================ */
+.Profile-guest-banner {
+  padding: var(--space-xl) var(--space-lg);
+  background: linear-gradient(135deg, rgba(200, 16, 46, 0.08), rgba(212, 175, 55, 0.08));
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.Profile-guest-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: rgba(107, 107, 107, 0.15);
+  border: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.Profile-guest-banner h3 {
+  font-family: var(--font-heading);
+  margin: 0;
+  color: var(--color-text);
+  font-size: 1.15rem;
+}
+
+.Profile-guest-banner p {
+  color: var(--color-text-muted);
+  max-width: 480px;
+  margin: 0 0 var(--space-md);
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.Profile-guest-actions {
+  display: flex;
+  gap: var(--space-md);
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.Profile-guest-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+/* ============================================================
+   RESUMEN RÁPIDO (STATS)
+   ============================================================ */
+.Profile-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.Profile-stat {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: transform var(--transition-fast),
+              border-color var(--transition-base),
+              box-shadow var(--transition-base);
+}
+
+.Profile-stat:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-gold);
+}
+
+.Profile-statIcon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-full);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  color: var(--gold-500);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.Profile-statInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.Profile-statValue {
+  font-family: var(--font-heading);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-text);
+  line-height: 1;
+}
+
+.Profile-statLabel {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-top: 4px;
+}
+
+/* ============================================================
+   INFO DE LA CUENTA
+   ============================================================ */
+.Profile-section {
+  padding: var(--space-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+}
+
+.Profile-sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-md);
+}
+
+.Profile-detailList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.Profile-detailList li {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.Profile-detailList li:last-child {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.Profile-detailList li > svg {
+  width: 40px;
+  height: 40px;
+  padding: 10px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.Profile-detailList li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.Profile-detailLabel {
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.Profile-detailValue {
+  font-size: 0.95rem;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+/* ============================================================
+   FOOTER (LOGOUT)
+   ============================================================ */
+.Profile-footer {
+  display: flex;
+  justify-content: center;
+  padding-top: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+}
+
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  background: transparent;
+  color: var(--color-primary);
+  border: 2px solid var(--color-primary);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              transform var(--transition-fast);
+}
+
+.btn-logout:hover {
+  background: var(--color-primary);
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+  .Profile-header {
+    flex-direction: column;
+    text-align: center;
+    padding-top: var(--space-xl);
+  }
+
+  .Profile-info {
+    align-items: center;
+  }
+
+  .Profile-badges {
+    justify-content: center;
+  }
+
+  .Profile-editBtn {
+    top: var(--space-sm);
+    right: var(--space-sm);
+    padding: 6px 10px;
+    font-size: 0.75rem;
+  }
+
+  .Profile-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .Profile-stat {
+    justify-content: flex-start;
+  }
+
+  .Profile-guest-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .Profile-guest-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}
