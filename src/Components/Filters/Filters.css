@@ -1,0 +1,214 @@
+/* src/Components/Filters/Filters.css */
+
+.Filters {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.Filters-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Filters-header h3 {
+  font-family: var(--font-heading);
+  font-size: 1.1rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.Filters-clear {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: none;
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: opacity var(--transition-fast);
+}
+
+.Filters-clear:hover {
+  opacity: 0.7;
+}
+
+/* ============================================================
+   GRUPOS
+   ============================================================ */
+.Filters-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.Filters-group:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.Filters-groupTitle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-heading);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.Filters-priceValue {
+  color: var(--gold-500);
+  font-weight: 700;
+}
+
+/* ============================================================
+   CATEGORÍAS (chips)
+   ============================================================ */
+.Filters-categories {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+}
+
+.Filters-chip {
+  padding: 6px 14px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: color var(--transition-base), border-color var(--transition-base),
+              background-color var(--transition-base);
+}
+
+.Filters-chip:hover {
+  border-color: var(--gold-500);
+  color: var(--color-text);
+}
+
+.Filters-chip.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+/* ============================================================
+   MARCAS (checkboxes)
+   ============================================================ */
+.Filters-brands {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.Filters-checkbox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  transition: color var(--transition-fast);
+}
+
+.Filters-checkbox:hover {
+  color: var(--color-text);
+}
+
+.Filters-checkbox input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Filters-checkboxMark {
+  width: 18px;
+  height: 18px;
+  border-radius: var(--radius-sm);
+  border: 1.5px solid var(--color-border-light);
+  background: var(--color-bg-elevated);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color var(--transition-base),
+              border-color var(--transition-base);
+  position: relative;
+}
+
+.Filters-checkboxMark::after {
+  content: '';
+  width: 4px;
+  height: 8px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg) scale(0);
+  transition: transform 0.15s ease;
+  margin-top: -2px;
+}
+
+.Filters-checkbox input:checked + .Filters-checkboxMark {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+}
+
+.Filters-checkbox input:checked + .Filters-checkboxMark::after {
+  transform: rotate(45deg) scale(1);
+}
+
+/* ============================================================
+   RANGO DE PRECIO
+   ============================================================ */
+.Filters-range {
+  width: 100%;
+  appearance: none;
+  height: 4px;
+  background: var(--color-bg-secondary);
+  border-radius: var(--radius-full);
+  outline: none;
+  cursor: pointer;
+}
+
+.Filters-range::-webkit-slider-thumb {
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--gold-500);
+  border: 3px solid var(--color-bg);
+  box-shadow: 0 0 0 1px var(--gold-500);
+  cursor: pointer;
+  transition: transform var(--transition-fast);
+}
+
+.Filters-range::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+}
+
+.Filters-range::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-full);
+  background: var(--gold-500);
+  border: 3px solid var(--color-bg);
+  cursor: pointer;
+}
+
+.Filters-rangeLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.75rem;
+  color: var(--color-text-subtle);
+}
