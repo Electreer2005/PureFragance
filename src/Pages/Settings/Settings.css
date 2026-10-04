@@ -1,0 +1,839 @@
+/* src/Pages/Settings/Settings.css */
+
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
+.Settings {
+  position: relative;
+  max-width: 760px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg) var(--space-2xl);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  min-height: 100vh;
+}
+
+/* Textura de puntos sutil de fondo */
+.Settings::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+  z-index: -1;
+}
+
+.Settings-loading {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  letter-spacing: 1px;
+}
+
+/* ============================================================
+   BACK BUTTON
+   ============================================================ */
+.Settings-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  cursor: pointer;
+  align-self: flex-start;
+  padding: var(--space-sm) 0;
+  transition: color var(--transition-base), gap var(--transition-base);
+}
+
+.Settings-back:hover {
+  color: var(--gold-500);
+  gap: var(--space-md);
+}
+
+.Settings-back svg {
+  transition: transform var(--transition-base);
+}
+
+.Settings-back:hover svg {
+  transform: translateX(-4px);
+}
+
+/* ============================================================
+   HEADER CON AVATAR
+   ============================================================ */
+.Settings-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  padding: var(--space-lg);
+  background: linear-gradient(135deg,
+      rgba(200, 16, 46, 0.04) 0%,
+      rgba(212, 175, 55, 0.06) 100%);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.Settings-header::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.Settings-avatar {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: linear-gradient(135deg, var(--red-600), var(--gold-600));
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow:
+    0 0 0 3px rgba(212, 175, 55, 0.2),
+    0 8px 24px rgba(200, 16, 46, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.Settings-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0;
+  color: var(--color-text);
+  letter-spacing: -0.5px;
+}
+
+.text-gold {
+  background: linear-gradient(135deg, var(--gold-400), var(--gold-600));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-style: italic;
+  font-weight: 700;
+}
+
+.Settings-subtitle {
+  color: var(--color-text-muted);
+  font-size: 0.9rem;
+  margin: 4px 0 0;
+  line-height: 1.5;
+}
+
+/* ============================================================
+   FEEDBACK (banner inline)
+   ============================================================ */
+.Settings-feedback {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-lg);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  font-weight: 500;
+  animation: feedbackIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  border-left-width: 4px;
+  border-left-style: solid;
+}
+
+@keyframes feedbackIn {
+  from { opacity: 0; transform: translateY(-10px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.Settings-feedback.success {
+  background: rgba(46, 125, 50, 0.1);
+  border: 1px solid rgba(46, 125, 50, 0.3);
+  border-left-color: var(--success);
+  color: var(--success);
+}
+
+.Settings-feedback.error {
+  background: rgba(230, 57, 70, 0.1);
+  border: 1px solid rgba(230, 57, 70, 0.3);
+  border-left-color: var(--error);
+  color: var(--error);
+}
+
+/* ============================================================
+   SECCIONES
+   ============================================================ */
+.Settings-section {
+  position: relative;
+  padding: var(--space-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.Settings-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: var(--space-lg);
+  right: var(--space-lg);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold-500), transparent);
+  opacity: 0.6;
+  border-radius: var(--radius-full);
+}
+
+.Settings-section:hover {
+  border-color: rgba(212, 175, 55, 0.35);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
+}
+
+.Settings-sectionTitle {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  color: var(--gold-600);
+  margin: 0;
+}
+
+.Settings-sectionTitle svg {
+  font-size: 1rem;
+}
+
+/* ============================================================
+   FORMULARIOS
+   ============================================================ */
+.Settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.Settings-input {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.Settings-input label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-text-muted);
+}
+
+.Settings-inputBox {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  height: 52px;
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--transition-base),
+              box-shadow var(--transition-base),
+              background-color var(--transition-base);
+}
+
+.Settings-inputBox:focus-within {
+  border-color: var(--gold-500);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+}
+
+.Settings-inputBox > svg {
+  color: var(--color-text-subtle);
+  flex-shrink: 0;
+  transition: color var(--transition-fast);
+}
+
+.Settings-inputBox:focus-within > svg {
+  color: var(--gold-600);
+}
+
+.Settings-inputBox input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  min-width: 0;
+}
+
+.Settings-inputBox input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.Settings-inputBox button {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast), background-color var(--transition-fast);
+}
+
+.Settings-inputBox button:hover {
+  color: var(--gold-600);
+  background: rgba(212, 175, 55, 0.12);
+}
+
+/* ============================================================
+   BOTONES DE GUARDAR
+   ============================================================ */
+.Settings-save {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 14px 28px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: var(--radius-full);
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+}
+
+.Settings-save:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.Settings-save:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+/* ============================================================
+   TOGGLES
+   ============================================================ */
+.Settings-toggles {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.Settings-toggle {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: border-color var(--transition-base),
+              background-color var(--transition-base),
+              transform var(--transition-fast);
+}
+
+.Settings-toggle:hover {
+  border-color: rgba(212, 175, 55, 0.5);
+  background: rgba(212, 175, 55, 0.04);
+  transform: translateX(2px);
+}
+
+.Settings-toggle input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.Settings-toggleInfo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  flex: 1;
+  min-width: 0;
+}
+
+.Settings-toggleInfo > svg {
+  color: var(--gold-500);
+  font-size: 1.1rem;
+  flex-shrink: 0;
+  transition: color var(--transition-fast), transform var(--transition-fast);
+}
+
+.Settings-toggle:hover .Settings-toggleInfo > svg {
+  transform: scale(1.1);
+}
+
+.Settings-toggleInfo > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.Settings-toggleLabel {
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-text);
+}
+
+.Settings-toggleDesc {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* ============================================================
+   SWITCH CON GRADIENTE
+   ============================================================ */
+.Settings-switch {
+  position: relative;
+  width: 48px;
+  height: 26px;
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  transition: background-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.Settings-switch::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+  transition: transform var(--transition-base);
+}
+
+.Settings-toggle input:checked ~ .Settings-switch {
+  background: linear-gradient(135deg, var(--red-500), var(--gold-500));
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.Settings-toggle input:checked ~ .Settings-switch::after {
+  transform: translateX(22px);
+}
+
+/* ============================================================
+   ZONA DE PELIGRO
+   ============================================================ */
+.Settings-danger {
+  border-color: rgba(230, 57, 70, 0.35);
+  background: linear-gradient(135deg,
+      rgba(230, 57, 70, 0.04) 0%,
+      rgba(230, 57, 70, 0.08) 100%);
+}
+
+.Settings-danger::before {
+  background: linear-gradient(90deg, transparent, var(--error), transparent);
+}
+
+.Settings-dangerTitle {
+  color: var(--error);
+}
+
+.Settings-dangerTitle svg {
+  animation: pulseIcon 2s ease-in-out infinite;
+}
+
+@keyframes pulseIcon {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.7; transform: scale(1.1); }
+}
+
+.Settings-dangerContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.Settings-dangerContent h3 {
+  font-family: var(--font-heading);
+  font-size: 1rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-xs);
+  color: var(--color-text);
+}
+
+.Settings-dangerContent p {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  line-height: 1.5;
+  margin: 0;
+  max-width: 420px;
+}
+
+.Settings-deleteBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: 12px 24px;
+  background: transparent;
+  color: var(--error);
+  border: 2px solid var(--error);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color var(--transition-base),
+              color var(--transition-base),
+              transform var(--transition-fast),
+              box-shadow var(--transition-base);
+}
+
+.Settings-deleteBtn:hover {
+  background: var(--error);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(230, 57, 70, 0.35);
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.Settings-modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  animation: overlayIn 0.25s ease both;
+}
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.Settings-modal {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-xl);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-top: 3px solid var(--error);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.5),
+    0 0 60px rgba(230, 57, 70, 0.2);
+  animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.9) translateY(20px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.Settings-modalIcon {
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-full);
+  background: rgba(230, 57, 70, 0.1);
+  border: 2px solid var(--error);
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  box-shadow: 0 0 0 6px rgba(230, 57, 70, 0.08);
+  animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.Settings-modalTitle {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+  letter-spacing: -0.3px;
+}
+
+.Settings-modalText {
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin: 0;
+  font-size: 0.92rem;
+  max-width: 340px;
+}
+
+.Settings-modalActions {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.Settings-modalActions button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: 14px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-radius: var(--radius-full);
+}
+
+/* Botón de peligro */
+.btn-danger {
+  background: linear-gradient(135deg, var(--error), #B71C1C);
+  color: #fff;
+  border: 2px solid var(--error);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+}
+
+.btn-danger:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(230, 57, 70, 0.45);
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: wait;
+  transform: none;
+}
+
+/* ============================================================
+   AVISO PARA INVITADOS
+   ============================================================ */
+.Settings-guestNotice {
+  position: relative;
+  padding: var(--space-2xl) var(--space-lg);
+  background: linear-gradient(135deg,
+      rgba(212, 175, 55, 0.06) 0%,
+      rgba(200, 16, 46, 0.04) 100%);
+  border: 1px solid rgba(212, 175, 55, 0.3);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  overflow: hidden;
+  margin-top: var(--space-xl);
+}
+
+.Settings-guestNotice::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.Settings-guestNotice > svg {
+  position: relative;
+  font-size: 2.8rem;
+  color: var(--gold-500);
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.4));
+}
+
+.Settings-guestNotice h2 {
+  position: relative;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.Settings-guestNotice p {
+  position: relative;
+  color: var(--color-text-muted);
+  max-width: 420px;
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.Settings-guestActions {
+  position: relative;
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: var(--space-sm);
+}
+
+.Settings-guestActions .btn-primary,
+.Settings-guestActions .btn-secondary {
+  padding: 12px 28px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+  .Settings {
+    padding: var(--space-lg) var(--space-md) var(--space-xl);
+    gap: var(--space-md);
+  }
+
+  .Settings-header {
+    flex-direction: column;
+    text-align: center;
+    padding: var(--space-md);
+  }
+
+  .Settings-avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 1.3rem;
+  }
+
+  .Settings-section {
+    padding: var(--space-md);
+  }
+
+  .Settings-section::before {
+    left: var(--space-md);
+    right: var(--space-md);
+  }
+
+  .Settings-save {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .Settings-dangerContent {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .Settings-deleteBtn {
+    justify-content: center;
+  }
+
+  .Settings-modal {
+    padding: var(--space-lg);
+  }
+
+  .Settings-modalActions {
+    flex-direction: column;
+  }
+
+  .Settings-guestNotice {
+    padding: var(--space-xl) var(--space-md);
+  }
+
+  .Settings-guestActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .Settings-guestActions .btn-primary,
+  .Settings-guestActions .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .Settings-sectionTitle {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+
+  .Settings-toggle {
+    padding: var(--space-sm);
+  }
+
+  .Settings-toggleDesc {
+    font-size: 0.72rem;
+  }
+}
+
+/* ============================================================
+   ACCESIBILIDAD
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .Settings-feedback,
+  .Settings-modal,
+  .Settings-modalOverlay,
+  .Settings-modalIcon,
+  .Settings-dangerTitle svg {
+    animation: none !important;
+  }
+
+  .Settings-toggle:hover {
+    transform: none;
+  }
+
+  .Settings-deleteBtn:hover,
+  .btn-danger:hover:not(:disabled) {
+    transform: none;
+  }
+}
