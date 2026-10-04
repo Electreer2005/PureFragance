@@ -1,0 +1,426 @@
+/* src/Pages/Admin/AdminOrders.css */
+
+.AdminOrders {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.AdminOrders-loading {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.AdminOrders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.AdminOrders-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0;
+  color: var(--color-text);
+}
+
+.AdminOrders-subtitle {
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+.AdminOrders-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.AdminOrders-search {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  transition: border-color var(--transition-base);
+}
+
+.AdminOrders-search:focus-within {
+  border-color: var(--gold-500);
+}
+
+.AdminOrders-search > svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.AdminOrders-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.AdminOrders-filters {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+.AdminOrders-filter {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.AdminOrders-filter:hover {
+  border-color: var(--gold-500);
+  color: var(--color-text);
+}
+
+.AdminOrders-filter.is-active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #fff;
+  font-weight: 600;
+}
+
+.AdminOrders-filterCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-full);
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.AdminOrders-filter:not(.is-active) .AdminOrders-filterCount {
+  background: var(--color-bg-secondary);
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   LISTA
+   ============================================================ */
+.AdminOrders-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.AdminOrderCard {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+}
+
+.AdminOrderCard:hover {
+  border-color: var(--gold-500);
+}
+
+.AdminOrderCard.is-expanded {
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-md);
+}
+
+/* ============================================================
+   HEADER DE CADA ORDEN
+   ============================================================ */
+.AdminOrderCard-header {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr auto;
+  gap: var(--space-md);
+  padding: var(--space-md) var(--space-lg);
+  align-items: center;
+}
+
+.AdminOrderCard-left {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.AdminOrderCard-number {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: 0.5px;
+}
+
+.AdminOrderCard-date {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.AdminOrderCard-middle {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.AdminOrderCard-customer {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
+.AdminOrderCard-email {
+  font-size: 0.8rem;
+  color: var(--color-text-muted);
+}
+
+.AdminOrderCard-right {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.AdminOrderCard-status {
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  outline: none;
+  border: 1px solid transparent;
+  transition: opacity var(--transition-base);
+}
+
+.AdminOrderCard-status:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.AdminOrderCard-status.pending {
+  background: rgba(245, 124, 0, 0.12);
+  color: var(--warning);
+  border-color: var(--warning);
+}
+
+.AdminOrderCard-status.shipped {
+  background: rgba(25, 118, 210, 0.12);
+  color: var(--info);
+  border-color: var(--info);
+}
+
+.AdminOrderCard-status.delivered {
+  background: rgba(46, 125, 50, 0.12);
+  color: var(--success);
+  border-color: var(--success);
+}
+
+.AdminOrderCard-status.cancelled {
+  background: rgba(230, 57, 70, 0.12);
+  color: var(--error);
+  border-color: var(--error);
+}
+
+.AdminOrderCard-total {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--color-primary);
+}
+
+.AdminOrderCard-expandBtn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: color var(--transition-base), border-color var(--transition-base);
+}
+
+.AdminOrderCard-expandBtn:hover {
+  color: var(--gold-500);
+  border-color: var(--gold-500);
+}
+
+/* ============================================================
+   DETALLE EXPANDIDO
+   ============================================================ */
+.AdminOrderCard-detail {
+  padding: var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  animation: expandIn 0.3s ease both;
+}
+
+@keyframes expandIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.AdminOrderCard-cols {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md);
+}
+
+.AdminOrderCard-col {
+  padding: var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+}
+
+.AdminOrderCard-col h4 {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-sm);
+}
+
+.AdminOrderCard-col p {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 2px 0;
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+.AdminOrderCard-col p svg {
+  color: var(--color-text-subtle);
+  font-size: 0.8rem;
+}
+
+.AdminOrderCard-col p.muted {
+  color: var(--color-text-muted);
+  font-size: 0.8rem;
+}
+
+.AdminOrderCard-col p.discount {
+  color: var(--success);
+  font-weight: 600;
+}
+
+/* Items */
+.AdminOrderCard-items h4 {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-accent);
+  margin: 0 0 var(--space-md);
+}
+
+.AdminOrderCard-item {
+  display: grid;
+  grid-template-columns: 48px 1fr auto;
+  gap: var(--space-md);
+  align-items: center;
+  padding: var(--space-sm) 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.AdminOrderCard-item:last-child {
+  border-bottom: none;
+}
+
+.AdminOrderCard-item img {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  background: var(--color-bg-secondary);
+}
+
+.AdminOrderCard-itemInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.AdminOrderCard-itemName {
+  font-weight: 600;
+  color: var(--color-text);
+  font-size: 0.9rem;
+}
+
+.AdminOrderCard-itemMeta {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+}
+
+.AdminOrderCard-itemPrice {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-text);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .AdminOrderCard-header {
+    grid-template-columns: 1fr auto;
+    gap: var(--space-sm);
+  }
+
+  .AdminOrderCard-middle {
+    grid-column: 1 / -1;
+    order: 3;
+  }
+
+  .AdminOrderCard-right {
+    grid-column: 2 / 3;
+    gap: var(--space-sm);
+  }
+
+  .AdminOrderCard-total {
+    font-size: 1rem;
+  }
+}

@@ -1,0 +1,380 @@
+/* src/Pages/Admin/AdminProductForm.css */
+
+.AdminProductForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  max-width: 900px;
+}
+
+.AdminProductForm-loading {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.AdminProductForm-back {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  align-self: flex-start;
+  padding: var(--space-sm) 0;
+  transition: color var(--transition-base), gap var(--transition-base);
+}
+
+.AdminProductForm-back:hover {
+  color: var(--color-accent);
+  gap: var(--space-md);
+}
+
+.AdminProductForm-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0;
+  color: var(--color-text);
+}
+
+.AdminProductForm-subtitle {
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0;
+  font-size: 0.9rem;
+}
+
+/* ============================================================
+   FEEDBACK
+   ============================================================ */
+.AdminProductForm-feedback {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  animation: fadeIn 0.3s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.AdminProductForm-feedback.success {
+  background: rgba(46, 125, 50, 0.12);
+  border: 1px solid var(--success);
+  color: var(--success);
+}
+
+.AdminProductForm-feedback.error {
+  background: rgba(230, 57, 70, 0.12);
+  border: 1px solid var(--error);
+  color: var(--error);
+}
+
+/* ============================================================
+   FORM
+   ============================================================ */
+.AdminProductForm-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.AdminProductForm-section {
+  padding: var(--space-lg);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.AdminProductForm-sectionTitle {
+  font-family: var(--font-heading);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--color-accent);
+  margin: 0;
+}
+
+/* ============================================================
+   CAMPOS
+   ============================================================ */
+.AdminProductForm-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-md);
+}
+
+.AdminProductForm-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xs);
+}
+
+.AdminProductForm-field label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+}
+
+.AdminProductForm-field input,
+.AdminProductForm-field select,
+.AdminProductForm-field textarea {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color var(--transition-base), box-shadow var(--transition-base);
+  width: 100%;
+}
+
+.AdminProductForm-field input:focus,
+.AdminProductForm-field select:focus,
+.AdminProductForm-field textarea:focus {
+  border-color: var(--gold-500);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.15);
+}
+
+.AdminProductForm-field textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.AdminProductForm-field.has-error input,
+.AdminProductForm-field.has-error textarea {
+  border-color: var(--color-primary);
+}
+
+.AdminProductForm-field .error {
+  color: var(--color-primary);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+/* ============================================================
+   TAMAÑOS
+   ============================================================ */
+.AdminProductForm-sizes,
+.AdminProductForm-images {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.AdminProductForm-sizesHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xs);
+}
+
+.AdminProductForm-sizesHeader label {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--color-text-muted);
+}
+
+.AdminProductForm-addSize {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: transparent;
+  border: 1px solid var(--gold-500);
+  color: var(--gold-500);
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.AdminProductForm-addSize:hover {
+  background: var(--gold-500);
+  color: var(--neutral-900);
+}
+
+.AdminProductForm-sizeRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr 40px;
+  gap: var(--space-md);
+  align-items: flex-end;
+}
+
+.AdminProductForm-imageRow {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.AdminProductForm-imageRow input {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  outline: none;
+}
+
+.AdminProductForm-imageRow input:focus {
+  border-color: var(--gold-500);
+}
+
+.AdminProductForm-removeSize {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: rgba(200, 16, 46, 0.1);
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color var(--transition-base), color var(--transition-base);
+}
+
+.AdminProductForm-removeSize:hover {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+/* ============================================================
+   PREVIEW IMAGEN
+   ============================================================ */
+.AdminProductForm-preview {
+  margin-top: var(--space-md);
+  display: flex;
+  justify-content: center;
+}
+
+.AdminProductForm-preview img {
+  max-width: 180px;
+  max-height: 180px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-border);
+  object-fit: cover;
+}
+
+/* ============================================================
+   CHECKBOXES (toggles)
+   ============================================================ */
+.AdminProductForm-checkboxes {
+  display: flex;
+  gap: var(--space-lg);
+  flex-wrap: wrap;
+}
+
+.AdminProductForm-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  cursor: pointer;
+  user-select: none;
+}
+
+.AdminProductForm-checkbox input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.AdminProductForm-switch {
+  position: relative;
+  width: 44px;
+  height: 24px;
+  background: var(--color-border-light);
+  border-radius: var(--radius-full);
+  flex-shrink: 0;
+  transition: background-color var(--transition-base);
+}
+
+.AdminProductForm-switch::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  background: #fff;
+  border-radius: var(--radius-full);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: transform var(--transition-base);
+}
+
+.AdminProductForm-checkbox input:checked ~ .AdminProductForm-switch {
+  background: var(--color-primary);
+}
+
+.AdminProductForm-checkbox input:checked ~ .AdminProductForm-switch::after {
+  transform: translateX(20px);
+}
+
+/* ============================================================
+   ACCIONES FINALES
+   ============================================================ */
+.AdminProductForm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.AdminProductForm-actions button {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-md) var(--space-xl);
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 640px) {
+  .AdminProductForm-row {
+    grid-template-columns: 1fr;
+  }
+
+  .AdminProductForm-sizeRow {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .AdminProductForm-actions {
+    flex-direction: column-reverse;
+  }
+
+  .AdminProductForm-actions button {
+    width: 100%;
+    justify-content: center;
+  }
+}

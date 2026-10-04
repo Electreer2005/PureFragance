@@ -1,0 +1,410 @@
+/* src/Pages/Admin/AdminProducts.css */
+
+.AdminProducts {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+.AdminProducts-loading {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-text-muted);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.AdminProducts-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.AdminProducts-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  margin: 0;
+  color: var(--color-text);
+}
+
+.AdminProducts-subtitle {
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0;
+  font-size: 0.9rem;
+}
+
+.AdminProducts-addBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-lg);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   TOOLBAR
+   ============================================================ */
+.AdminProducts-toolbar {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.AdminProducts-search {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  transition: border-color var(--transition-base);
+}
+
+.AdminProducts-search:focus-within {
+  border-color: var(--gold-500);
+}
+
+.AdminProducts-search > svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.AdminProducts-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.AdminProducts-select {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.AdminProducts-select:focus {
+  border-color: var(--gold-500);
+}
+
+/* ============================================================
+   TABLA
+   ============================================================ */
+.AdminProducts-tableWrapper {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.AdminProducts-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+.AdminProducts-table thead th {
+  background: var(--color-bg-secondary);
+  text-align: left;
+  padding: var(--space-md) var(--space-lg);
+  color: var(--color-text-muted);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.AdminProducts-table tbody td {
+  padding: var(--space-md) var(--space-lg);
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+  vertical-align: middle;
+}
+
+.AdminProducts-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.AdminProducts-table tbody tr:hover {
+  background: var(--color-bg-secondary);
+}
+
+/* Celda de producto */
+.AdminProducts-productCell {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+}
+
+.AdminProducts-productCell img {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  object-fit: cover;
+  background: var(--color-bg-secondary);
+  flex-shrink: 0;
+}
+
+.AdminProducts-productCell > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.AdminProducts-productName {
+  font-weight: 600;
+  color: var(--color-text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.AdminProducts-productId {
+  font-size: 0.7rem;
+  color: var(--color-text-subtle);
+}
+
+/* Celda de categoría */
+.AdminProducts-categoryBadge {
+  display: inline-flex;
+  padding: 4px 10px;
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  text-transform: capitalize;
+  color: var(--color-text-muted);
+}
+
+/* Precio */
+.AdminProducts-price {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+/* Stock */
+.AdminProducts-stock {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.AdminProducts-stock.is-low {
+  color: var(--error);
+}
+
+.AdminProducts-stock.is-low svg {
+  font-size: 0.75rem;
+}
+
+/* Tags */
+.AdminProducts-tag {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.AdminProducts-tag.new {
+  background: var(--gold-500);
+  color: var(--neutral-900);
+}
+
+.AdminProducts-tag.sale {
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.AdminProducts-tag.none {
+  color: var(--color-text-subtle);
+  background: transparent;
+}
+
+/* Acciones */
+.AdminProducts-actions {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.AdminProducts-actionBtn {
+  width: 34px;
+  height: 34px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  color: var(--color-text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.AdminProducts-actionBtn.edit:hover {
+  background: rgba(25, 118, 210, 0.1);
+  border-color: var(--info);
+  color: var(--info);
+}
+
+.AdminProducts-actionBtn.delete:hover {
+  background: rgba(200, 16, 46, 0.1);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   MODAL
+   ============================================================ */
+.AdminProducts-modalOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(6px);
+  z-index: 300;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-md);
+  animation: fadeIn 0.2s ease both;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.AdminProducts-modal {
+  width: 100%;
+  max-width: 440px;
+  padding: var(--space-xl);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  animation: modalIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes modalIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.AdminProducts-modalIcon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background: rgba(230, 57, 70, 0.12);
+  border: 2px solid var(--error);
+  color: var(--error);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.AdminProducts-modal h3 {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.AdminProducts-modal p {
+  color: var(--color-text-muted);
+  margin: 0;
+  line-height: 1.6;
+  font-size: 0.95rem;
+}
+
+.AdminProducts-modalActions {
+  display: flex;
+  gap: var(--space-md);
+  width: 100%;
+  margin-top: var(--space-sm);
+}
+
+.AdminProducts-modalActions button {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  font-size: 0.85rem;
+}
+
+.btn-danger {
+  background: var(--error);
+  color: #fff;
+  border: 2px solid var(--error);
+  border-radius: var(--radius-full);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: #C62828;
+  border-color: #C62828;
+}
+
+.btn-danger:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .AdminProducts-tableWrapper {
+    overflow-x: auto;
+  }
+
+  .AdminProducts-table {
+    min-width: 800px;
+  }
+}
