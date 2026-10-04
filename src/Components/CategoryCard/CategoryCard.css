@@ -1,0 +1,166 @@
+/* src/Components/CategoryCard/CategoryCard.css */
+
+.CategoryCard {
+  position: relative;
+  height: 350px;                    /* 👈 base */
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--color-border);
+  transition:
+    transform var(--transition-base),
+    box-shadow var(--transition-base),
+    border-color var(--transition-base);
+}
+
+.CategoryCard:hover {
+  transform: translateY(-6px);
+  border-color: var(--gold-500);
+  box-shadow: var(--shadow-lg), var(--shadow-gold);
+}
+
+.CategoryCard-image {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.CategoryCard-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.CategoryCard:hover .CategoryCard-image img {
+  transform: scale(1.08);
+}
+
+.CategoryCard-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.1) 0%,
+    rgba(10, 10, 10, 0.5) 50%,
+    rgba(10, 10, 10, 0.95) 100%
+  );
+}
+
+.CategoryCard-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: var(--space-lg);
+  z-index: 1;
+  color: #fff;
+}
+
+.CategoryCard-title {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0 0 var(--space-xs);
+  color: #fff;
+  line-height: 1.2;
+}
+
+.CategoryCard-description {
+  font-size: 0.9rem;
+  color: rgba(245, 245, 245, 0.85);
+  margin: 0 0 var(--space-md);
+  line-height: 1.5;
+  /* Truncar a 2 líneas */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.CategoryCard-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--gold-400);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: gap var(--transition-base), color var(--transition-base);
+}
+
+.CategoryCard:hover .CategoryCard-cta {
+  gap: var(--space-md);
+  color: var(--gold-500);
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+/* Tablet */
+@media (max-width: 900px) {
+  .CategoryCard {
+    height: 320px;
+  }
+
+  .CategoryCard-content {
+    padding: var(--space-md);
+  }
+
+  .CategoryCard-title {
+    font-size: 1.5rem;
+  }
+}
+
+/* Mobile */
+@media (max-width: 640px) {
+  .CategoryCard {
+    height: 280px;
+  }
+
+  .CategoryCard-title {
+    font-size: 1.35rem;
+  }
+
+  .CategoryCard-description {
+    font-size: 0.85rem;
+    margin-bottom: var(--space-sm);
+  }
+
+  .CategoryCard-cta {
+    font-size: 0.8rem;
+  }
+}
+
+/* Mobile chico */
+@media (max-width: 480px) {
+  .CategoryCard {
+    height: 240px;
+  }
+
+  .CategoryCard-content {
+    padding: var(--space-md) var(--space-md) var(--space-lg);
+  }
+
+  .CategoryCard-title {
+    font-size: 1.25rem;
+  }
+
+  .CategoryCard-description {
+    /* En pantallas muy chicas mostramos 1 sola línea */
+    -webkit-line-clamp: 1;
+  }
+}
+
+@media (max-width: 360px) {
+  .CategoryCard {
+    height: 220px;
+  }
+
+  .CategoryCard-title {
+    font-size: 1.15rem;
+  }
+}
