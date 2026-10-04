@@ -1,0 +1,312 @@
+/* src/Components/Header/Header.css */
+
+.Header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+  backdrop-filter: blur(10px);
+  transition: background-color var(--transition-base);
+  width: 100%;
+}
+
+.Header-content {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-lg);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+
+/* ============================================================
+   LOGO
+   ============================================================ */
+.logo {
+  text-decoration: none;
+  color: inherit;
+}
+
+.logo h1 {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.NavBar nav ul {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.NavBar nav ul li a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-sm);
+  color: var(--color-text);
+  text-decoration: none;
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 0.95rem;
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-md);
+  transition: color var(--transition-base), background-color var(--transition-base);
+}
+
+.NavBar nav ul li a:hover {
+  color: var(--color-accent);
+  background: var(--color-bg-secondary);
+}
+
+.NavBar nav ul li a svg {
+  font-size: 1.05rem;
+}
+
+
+/* ============================================================
+   BOTONES DEL HEADER
+   ============================================================ */
+.btn-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+}
+
+.btn-header button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-full);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: transform var(--transition-fast), background-color var(--transition-base);
+}
+
+.btn-header button:hover {
+  transform: translateY(-2px);
+}
+
+.btn-label {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .btn-label {
+    display: inline;
+  }
+}
+
+/* ============================================================
+   CARRITO CON BADGE
+   ============================================================ */
+.cart-btn {
+  position: relative; /* 👈 clave para que el badge se posicione respecto al botón */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+  color: var(--color-text);
+  font-size: 1.1rem;
+  cursor: pointer;
+  transition:
+    transform var(--transition-fast),
+    background-color var(--transition-base),
+    border-color var(--transition-base),
+    color var(--transition-base);
+}
+
+.cart-btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--gold-500);
+  color: var(--gold-500);
+}
+
+/* Badge rojo con número */
+.cart-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 6px rgba(200, 16, 46, 0.5);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Animación al agregar */
+.cart-badge.bump {
+  animation: badgeBounce 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes badgeBounce {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.4); }
+  50%  { transform: scale(0.9); }
+  70%  { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* ============================================================
+   MENÚ DE USUARIO (DROPDOWN)
+   ============================================================ */
+.UserMenu-wrapper {
+  position: relative;
+}
+
+.UserMenu-dropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 220px;
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  padding: var(--space-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  animation: dropdownIn 0.2s ease both;
+  z-index: 50;
+}
+
+@keyframes dropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.UserMenu-dropdown button {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-fast), color var(--transition-fast);
+}
+
+.UserMenu-dropdown button:hover {
+  background: var(--color-bg-secondary);
+  color: var(--color-accent);
+}
+
+.UserMenu-dropdown hr {
+  border: none;
+  border-top: 1px solid var(--color-border);
+  margin: var(--space-xs) 0;
+}
+
+.UserMenu-dropdown .dropdown-logout {
+  color: var(--color-primary);
+}
+
+.UserMenu-dropdown .dropdown-logout:hover {
+  background: rgba(200, 16, 46, 0.08);
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   BOTÓN HAMBURGUESA (solo mobile)
+   ============================================================ */
+.btn-menu {
+  display: none;
+  font-size: 1.4rem;
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 768px) {
+  .btn-menu {
+    display: block;
+  }
+
+  .NavBar {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--color-bg-elevated);
+    border-bottom: 1px solid var(--color-border);
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease;
+  }
+
+  .NavBar.is-open {
+    max-height: 400px;
+  }
+
+  .NavBar nav ul {
+    flex-direction: column;
+    gap: 0;
+    padding: var(--space-sm);
+  }
+
+  .NavBar nav ul li a {
+    width: 100%;
+    padding: var(--space-md);
+    border-radius: var(--radius-sm);
+  }
+}
+
+.dropdown-badge {
+  margin-left: auto;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  background: var(--color-primary);
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
