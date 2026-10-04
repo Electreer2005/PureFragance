@@ -1,0 +1,162 @@
+/* ============================================================
+   LOADING FULL PAGE
+   ============================================================ */
+.Loading-container {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, var(--red-900) 0%, var(--red-700) 45%, var(--gold-700) 100%);
+  z-index: 9999;
+  overflow: hidden;
+}
+
+/* Textura de puntos (coherente con Auth y Welcome) */
+.Loading-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* Halo dorado animado */
+.Loading-container::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulse 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.5; transform: translate(-50%, -50%) scale(1); }
+  50%      { opacity: 0.9; transform: translate(-50%, -50%) scale(1.15); }
+}
+
+/* ============================================================
+   LOGO CENTRAL CON ANILLOS
+   ============================================================ */
+.Loading-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-lg);
+  animation: fadeUp 0.6s ease-out;
+}
+
+.Loading-logo {
+  position: relative;
+  width: 130px;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Anillos giratorios dorados */
+.Loading-ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--gold-500);
+  border-right-color: var(--gold-300);
+  animation: spin 1.4s linear infinite;
+}
+
+.Loading-ring--2 {
+  inset: 12px;
+  border-top-color: var(--gold-300);
+  border-right-color: transparent;
+  border-left-color: var(--gold-500);
+  animation-duration: 2s;
+  animation-direction: reverse;
+}
+
+.Loading-ring--3 {
+  inset: 24px;
+  border-top-color: transparent;
+  border-bottom-color: var(--gold-400);
+  animation-duration: 2.8s;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Iniciales en el centro */
+.Loading-letter {
+  font-family: var(--font-display);
+  font-size: 34px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  background: linear-gradient(135deg, #ffffff 0%, var(--gold-300) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 20px rgba(212, 175, 55, 0.6);
+  animation: glow 2s ease-in-out infinite;
+}
+
+@keyframes glow {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(212, 175, 55, 0.5)); }
+  50%      { filter: drop-shadow(0 0 20px rgba(212, 175, 55, 1)); }
+}
+
+/* ============================================================
+   TEXTO
+   ============================================================ */
+.Loading-text {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.Loading-dots span {
+  display: inline-block;
+  animation: dotBounce 1.4s infinite;
+}
+
+.Loading-dots span:nth-child(1) { animation-delay: 0s; }
+.Loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.Loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30%           { transform: translateY(-5px); opacity: 1; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 480px) {
+  .Loading-logo {
+    width: 100px;
+    height: 100px;
+  }
+
+  .Loading-letter {
+    font-size: 26px;
+  }
+
+  .Loading-text {
+    font-size: 12px;
+    letter-spacing: 2px;
+  }
+}
