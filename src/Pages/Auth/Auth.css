@@ -1,0 +1,530 @@
+/* ============================================================
+   CONTENEDOR PRINCIPAL
+   ============================================================ */
+.Auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+  padding: var(--space-lg);
+  background: linear-gradient(135deg, var(--red-900) 0%, var(--red-700) 45%, var(--gold-700) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Textura sutil de puntos sobre el gradiente */
+.Auth-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 24px 24px;
+  pointer-events: none;
+}
+
+/* Halo dorado decorativo */
+.Auth-container::after {
+  content: "";
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.25) 0%, transparent 70%);
+  top: -180px;
+  right: -180px;
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50%      { transform: translate(-30px, 30px) scale(1.05); }
+}
+
+/* ============================================================
+   TARJETA DEL FORMULARIO
+   ============================================================ */
+.login-form,
+.register-form {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: var(--neutral-100);
+  padding: 44px 40px 36px;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-top: 3px solid var(--gold-500);
+}
+
+/* ============================================================
+   TÍTULO
+   ============================================================ */
+.login-form .title,
+.register-form .title {
+  font-family: var(--font-display);
+  font-size: 30px;
+  font-weight: 700;
+  color: var(--red-700);
+  text-align: center;
+  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+}
+
+/* Línea decorativa dorada debajo del título */
+.login-form .title::after,
+.register-form .title::after {
+  content: "";
+  display: block;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold-500), var(--gold-700));
+  margin: 12px auto 28px;
+  border-radius: var(--radius-full);
+}
+
+/* ============================================================
+   INPUTS
+   ============================================================ */
+.label-form {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--neutral-600);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+}
+
+.Input-group {
+  margin-bottom: 20px;
+}
+
+.Input-box {
+  display: flex;
+  align-items: center;
+  height: 52px;
+  border: 1.5px solid var(--neutral-300);
+  border-radius: var(--radius-md);
+  padding: 0 16px;
+  background-color: var(--neutral-50);
+  transition: border-color var(--transition-fast),
+              box-shadow var(--transition-fast),
+              background-color var(--transition-fast);
+}
+
+/* Estado focus: borde dorado + glow */
+.Input-box:focus-within {
+  border-color: var(--gold-500);
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
+}
+
+.input-form {
+  flex: 1;
+  height: 100%;
+  border: none;
+  outline: none;
+  padding: 0 12px;
+  background: transparent;
+  font-size: 15px;
+  font-family: var(--font-body);
+  color: var(--neutral-800);
+}
+
+.input-form::placeholder {
+  color: var(--neutral-400);
+}
+
+.Icon {
+  font-size: 16px;
+  color: var(--neutral-500);
+  transition: color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.Input-box:focus-within .Icon {
+  color: var(--gold-600);
+}
+
+.Input-box button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  border-radius: var(--radius-sm);
+  transition: background-color var(--transition-fast);
+}
+
+.Input-box button:hover {
+  background-color: rgba(212, 175, 55, 0.12);
+}
+
+/* ============================================================
+   LINKS
+   ============================================================ */
+.Forgot-Password {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: -8px;
+}
+
+.Forgot-Password a,
+.LoginLink a,
+.RegisterLink a {
+  color: var(--gold-600);
+  font-weight: 600;
+  font-size: 14px;
+  transition: color var(--transition-fast);
+}
+
+.Forgot-Password a:hover,
+.LoginLink a:hover,
+.RegisterLink a:hover {
+  color: var(--red-600);
+  text-decoration: underline;
+}
+
+.LoginLink,
+.RegisterLink {
+  padding-top: 20px;
+  margin-top: 22px;
+  text-align: center;
+  border-top: 1px solid var(--neutral-200);
+  font-size: 14px;
+  color: var(--neutral-600);
+}
+
+.LoginLink p,
+.RegisterLink p {
+  margin: 0;
+}
+
+
+.btn-primary:active,
+.btn-secondary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled,
+.btn-secondary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ============================================================
+   MENSAJE DE ERROR
+   ============================================================ */
+.error-message {
+  background: var(--red-50);
+  color: var(--red-700);
+  padding: 12px 16px;
+  border-left: 4px solid var(--red-500);
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  margin-bottom: 20px;
+  animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25%      { transform: translateX(-6px); }
+  75%      { transform: translateX(6px); }
+}
+
+/* ============================================================
+   ANIMACIONES DE ENTRADA
+   ============================================================ */
+.anim-fade-in {
+  animation: fadeIn 0.5s ease-out;
+}
+
+.anim-fade-up {
+  animation: fadeUp 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 480px) {
+  .login-form,
+  .register-form {
+    padding: 32px 24px 28px;
+  }
+
+  .login-form .title,
+  .register-form .title {
+    font-size: 24px;
+  }
+
+  .Input-box,
+  .btn-primary,
+  .btn-secondary {
+    height: 48px;
+  }
+}
+
+/* ============================================================
+   FORMULARIO FORGOT PASSWORD
+   ============================================================ */
+.forgot-form {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 420px;
+  background: var(--neutral-100);
+  padding: 44px 40px 36px;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-top: 3px solid var(--gold-500);
+}
+
+/* Subtítulo reutilizable (Login, Register, Forgot) */
+.form-subtitle {
+  text-align: center;
+  color: var(--neutral-600);
+  font-size: 14px;
+  line-height: 1.55;
+  margin: 0 auto 26px;
+  max-width: 320px;
+}
+
+/* Botón con ícono alineado */
+.btn-primary svg,
+.btn-secondary svg {
+  margin-right: 6px;
+  vertical-align: -2px;
+}
+
+/* ============================================================
+   ESTADO DE ÉXITO
+   ============================================================ */
+.success-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.success-icon {
+  font-size: 56px;
+  color: var(--success);
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 12px rgba(46, 125, 50, 0.35));
+  animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.success-state .title {
+  font-size: 24px;
+}
+
+.success-state .title::after {
+  background: linear-gradient(90deg, var(--success), var(--success-light));
+}
+
+.success-state .form-subtitle strong {
+  color: var(--red-600);
+}
+
+.helper-text {
+  font-size: 12.5px;
+  color: var(--neutral-500);
+  margin: 4px 0 24px;
+  line-height: 1.5;
+}
+
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(0.4); }
+  60%  { opacity: 1; transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+/* LoginLink con ícono */
+.LoginLink a {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ============================================================
+   FORMULARIO RESET PASSWORD
+   ============================================================ */
+.reset-form {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+  background: var(--neutral-100);
+  padding: 44px 40px 36px;
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 20px 60px rgba(0, 0, 0, 0.35),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(8px);
+  border-top: 3px solid var(--gold-500);
+}
+
+.form-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.header-icon {
+  font-size: 34px;
+  color: var(--gold-600);
+  margin-bottom: 6px;
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.35));
+}
+
+/* ============================================================
+   INPUT EN ESTADO DE ERROR
+   ============================================================ */
+.Input-box--error {
+  border-color: var(--error);
+  background-color: #fff5f5;
+}
+
+.Input-box--error:focus-within {
+  border-color: var(--error);
+  box-shadow: 0 0 0 4px rgba(230, 57, 70, 0.15);
+}
+
+.field-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+}
+
+.field-hint--error {
+  color: var(--error);
+}
+
+/* ============================================================
+   CHECKLIST DE REQUISITOS
+   ============================================================ */
+.password-rules {
+  list-style: none;
+  padding: 0;
+  margin: -4px 0 22px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 14px;
+}
+
+.password-rules li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--neutral-500);
+  transition: color var(--transition-fast);
+}
+
+.password-rules li .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--neutral-300);
+  flex-shrink: 0;
+  transition: background var(--transition-fast),
+              box-shadow var(--transition-fast),
+              transform var(--transition-fast);
+}
+
+.password-rules li.ok {
+  color: var(--success);
+  font-weight: 600;
+}
+
+.password-rules li.ok .dot {
+  background: var(--success-light);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  transform: scale(1.15);
+}
+
+/* ============================================================
+   ESTADOS (ÉXITO / ERROR)
+   ============================================================ */
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.error-icon {
+  font-size: 56px;
+  color: var(--error);
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 12px rgba(230, 57, 70, 0.35));
+  animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.error-state .title::after {
+  background: linear-gradient(90deg, var(--error), var(--red-400));
+}
+
+/* Link estilizado como botón */
+.btn-primary.as-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  margin-top: 12px;
+  background: linear-gradient(135deg, var(--red-500), var(--red-700));
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  box-shadow: var(--shadow-red);
+  transition: transform var(--transition-fast), box-shadow var(--transition-base);
+}
+
+.btn-primary.as-link:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(200, 16, 46, 0.4);
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 480px) {
+  .reset-form {
+    padding: 32px 24px 28px;
+  }
+
+  .password-rules {
+    grid-template-columns: 1fr;
+  }
+}
