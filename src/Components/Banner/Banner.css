@@ -1,0 +1,372 @@
+/* src/Components/Banner/Banner.css */
+
+/* ============================================================
+   SECCIÓN HERO CON IMAGEN DE FONDO
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 90vh;
+  min-height: 90dvh; /* altura dinámica real en mobile */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: var(--space-2xl) var(--space-lg);
+  overflow: hidden;
+  isolation: isolate;
+
+  background-image: var(--hero-bg);
+  background-size: cover;
+  background-position: center right;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+/* ============================================================
+   OVERLAY OSCURO
+   ============================================================ */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(
+    100deg,
+    rgba(10, 10, 10, 0.95) 0%,
+    rgba(10, 10, 10, 0.85) 35%,
+    rgba(10, 10, 10, 0.55) 60%,
+    rgba(10, 10, 10, 0.15) 85%,
+    transparent 100%
+  );
+}
+
+.hero-overlay::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    transparent 60%,
+    rgba(10, 10, 10, 0.5) 100%
+  );
+}
+
+/* ============================================================
+   CONTENIDO
+   ============================================================ */
+.hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  text-align: left;
+  width: 100%;
+}
+
+.hero h1 {
+  font-family: var(--font-display, 'Playfair Display', serif);
+  font-size: clamp(2rem, 5.5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+  margin: 0;
+  /* Evita desborde horizontal en mobile */
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+}
+
+.text-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--gold-600, #B8860B) 0%,
+    var(--gold-300, #F0D98C) 25%,
+    var(--gold-500, #D4AF37) 50%,
+    var(--gold-300, #F0D98C) 75%,
+    var(--gold-600, #B8860B) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 4s linear infinite;
+  filter: drop-shadow(0 2px 12px rgba(212, 175, 55, 0.25));
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.hero-subtitle {
+  font-family: var(--font-body, 'Inter', sans-serif);
+  font-size: clamp(1rem, 1.8vw, 1.15rem);
+  line-height: 1.7;
+  color: rgba(245, 245, 245, 0.9);
+  margin: 0;
+  max-width: 520px;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================
+   BOTONES
+   ============================================================ */
+.hero-actions {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-top: var(--space-sm);
+}
+
+.hero .btn-primary,
+.hero .btn-secondary {
+  position: relative;
+  overflow: hidden;
+  padding: var(--space-md) var(--space-xl);
+  border-radius: var(--radius-full, 9999px);
+  font-family: var(--font-heading, 'Montserrat', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  cursor: pointer;
+  z-index: 1;
+  transition:
+    transform var(--transition-fast, 150ms ease),
+    box-shadow var(--transition-base, 250ms ease),
+    color var(--transition-base, 250ms ease);
+}
+
+.hero .btn-primary {
+  background: var(--color-primary, #C8102E);
+  color: #fff;
+  border: none;
+  box-shadow: 0 4px 20px rgba(200, 16, 46, 0.5);
+}
+
+.hero .btn-primary::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--gold-500, #D4AF37), var(--gold-600, #B8860B));
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+  border-radius: inherit;
+}
+
+.hero .btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(212, 175, 55, 0.5);
+}
+
+.hero .btn-primary:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.hero .btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  color: var(--gold-400, #E6C76A);
+  border: 2px solid var(--gold-500, #D4AF37);
+}
+
+.hero .btn-secondary::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--gold-500, #D4AF37);
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+}
+
+.hero .btn-secondary:hover {
+  color: var(--neutral-900, #0A0A0A);
+  transform: translateY(-3px);
+}
+
+.hero .btn-secondary:hover::before {
+  transform: translateY(0);
+}
+
+/* ============================================================
+   PARTÍCULAS DORADAS
+   ============================================================ */
+.gold-particle {
+  position: absolute;
+  bottom: -10px;
+  width: 5px;
+  height: 5px;
+  background: var(--gold-500, #D4AF37);
+  border-radius: 50%;
+  box-shadow:
+    0 0 8px var(--gold-500, #D4AF37),
+    0 0 16px rgba(212, 175, 55, 0.6);
+  pointer-events: none;
+  opacity: 0;
+  animation: floatParticle 10s linear infinite;
+  z-index: 2;
+}
+
+.gold-particle:nth-child(2) { left: 15%; animation-duration: 9s;  animation-delay: 0s; }
+.gold-particle:nth-child(3) { left: 45%; width: 7px; height: 7px; animation-duration: 12s; animation-delay: 2s; }
+.gold-particle:nth-child(4) { left: 78%; animation-duration: 11s; animation-delay: 4s; }
+
+@keyframes floatParticle {
+  0%   { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+  10%  { opacity: 0.9; }
+  50%  { transform: translateY(-45vh) translateX(30px) scale(1); opacity: 0.7; }
+  90%  { opacity: 0.4; }
+  100% { transform: translateY(-90vh) translateX(-20px) scale(0.5); opacity: 0; }
+}
+
+/* ============================================================
+   TABLET — 900px
+   ============================================================ */
+@media (max-width: 900px) {
+  .hero {
+    min-height: 80vh;
+    min-height: 80dvh;
+    padding: var(--space-xl) var(--space-lg);
+    background-position: center;
+    background-attachment: scroll; /* fix iOS */
+  }
+
+  .hero-overlay {
+    background: linear-gradient(
+      to bottom,
+      rgba(10, 10, 10, 0.65) 0%,
+      rgba(10, 10, 10, 0.80) 45%,
+      rgba(10, 10, 10, 0.95) 100%
+    );
+  }
+
+  .hero-content {
+    max-width: 100%;
+    text-align: center;
+    align-items: center;
+    margin: 0 auto;
+  }
+
+  .hero-subtitle {
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    justify-content: center;
+    width: 100%;
+  }
+
+  .hero .btn-primary,
+  .hero .btn-secondary {
+    min-width: 180px;
+  }
+}
+
+/* ============================================================
+   MOBILE GRANDE — 640px
+   ============================================================ */
+@media (max-width: 640px) {
+  .hero {
+    min-height: 100svh; /* small viewport height: considera barra navegador */
+    padding: calc(var(--space-xl) + env(safe-area-inset-top, 0px))
+             var(--space-md)
+             calc(var(--space-xl) + env(safe-area-inset-bottom, 0px));
+    background-position: center top; /* muestra la parte superior de la imagen */
+  }
+
+  .hero-content {
+    gap: var(--space-md);
+  }
+
+  .hero h1 {
+    font-size: clamp(1.75rem, 8vw, 2.5rem);
+    line-height: 1.15;
+  }
+
+  .hero-subtitle {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    max-width: 92%;
+  }
+
+  /* Reducir partículas (menos ruido visual en mobile) */
+  .gold-particle:nth-child(3),
+  .gold-particle:nth-child(4) {
+    display: none;
+  }
+}
+
+/* ============================================================
+   MOBILE CHICO — 480px
+   ============================================================ */
+@media (max-width: 480px) {
+  .hero {
+    min-height: 100svh;
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .hero h1 {
+    font-size: clamp(1.6rem, 7.5vw, 2.2rem);
+    letter-spacing: -0.3px;
+  }
+
+  .hero-subtitle {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero .btn-primary,
+  .hero .btn-secondary {
+    width: 100%;
+    min-width: 0;
+    padding: var(--space-md) var(--space-lg);
+    font-size: 0.85rem;
+  }
+}
+
+/* ============================================================
+   MOBILE MUY CHICO — 360px (iPhone SE)
+   ============================================================ */
+@media (max-width: 380px) {
+  .hero h1 {
+    font-size: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.85rem;
+  }
+
+  .hero .btn-primary,
+  .hero .btn-secondary {
+    font-size: 0.8rem;
+    padding: var(--space-sm) var(--space-md);
+  }
+}
+
+/* ============================================================
+   ACCESIBILIDAD
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  .text-shimmer,
+  .gold-particle {
+    animation: none !important;
+  }
+
+  .gold-particle {
+    display: none;
+  }
+
+  .hero {
+    background-attachment: scroll;
+  }
+}
