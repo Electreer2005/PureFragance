@@ -1,0 +1,322 @@
+/* src/Pages/Products/Products.css */
+
+.Products {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: var(--space-xl) var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+/* ============================================================
+   HEADER
+   ============================================================ */
+.Products-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: var(--space-md);
+}
+
+.Products-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.75rem, 4vw, 2.75rem);
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-text);
+}
+
+.text-gold {
+  color: var(--gold-500);
+  font-style: italic;
+}
+
+.Products-subtitle {
+  color: var(--color-text-muted);
+  margin: var(--space-xs) 0 0;
+  font-size: 0.95rem;
+}
+
+/* ============================================================
+   TOOLBAR (búsqueda + orden)
+   ============================================================ */
+.Products-toolbar {
+  display: flex;
+  gap: var(--space-md);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.Products-search {
+  flex: 1;
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  transition: border-color var(--transition-base);
+}
+
+.Products-search:focus-within {
+  border-color: var(--gold-500);
+}
+
+.Products-search > svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.Products-search input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+}
+
+.Products-search input::placeholder {
+  color: var(--color-text-subtle);
+}
+
+.Products-searchClear {
+  background: transparent;
+  border: none;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  transition: color var(--transition-fast);
+}
+
+.Products-searchClear:hover {
+  color: var(--color-primary);
+}
+
+.Products-toolbarRight {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+.Products-sort {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  cursor: pointer;
+  outline: none;
+  transition: border-color var(--transition-base);
+}
+
+.Products-sort:hover,
+.Products-sort:focus {
+  border-color: var(--gold-500);
+}
+
+.Products-filterBtn {
+  display: none; /* solo mobile */
+  align-items: center;
+  gap: var(--space-sm);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color var(--transition-base);
+}
+
+.Products-filterBtn:hover {
+  background: var(--color-primary-hover);
+}
+
+/* ============================================================
+   LAYOUT
+   ============================================================ */
+.Products-layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: var(--space-xl);
+  align-items: flex-start;
+}
+
+.Products-sidebar {
+  position: sticky;
+  top: 100px;
+}
+
+.Products-main {
+  min-width: 0;
+}
+
+/* ============================================================
+   GRILLA DE PRODUCTOS
+   ============================================================ */
+.Products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-lg);
+}
+
+/* ============================================================
+   DRAWER (MOBILE)
+   ============================================================ */
+.Products-drawerOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  justify-content: flex-end;
+  animation: fadeIn 0.2s ease;
+}
+
+.Products-drawer {
+  width: 90%;
+  max-width: 380px;
+  height: 100%;
+  background: var(--color-bg);
+  padding: var(--space-lg);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+  animation: slideInRight 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.Products-drawerHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Products-drawerHeader h3 {
+  font-family: var(--font-heading);
+  margin: 0;
+  color: var(--color-text);
+}
+
+.Products-drawerHeader button {
+  background: transparent;
+  border: none;
+  color: var(--color-text);
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.Products-drawerApply {
+  margin-top: auto;
+  width: 100%;
+  justify-content: center;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 900px) {
+  .Products-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .Products-sidebar {
+    display: none;
+  }
+
+  .Products-filterBtn {
+    display: inline-flex;
+  }
+}
+
+@media (max-width: 640px) {
+  .Products {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .Products-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .Products-toolbarRight {
+    justify-content: space-between;
+  }
+
+  .Products-sort {
+    flex: 1;
+  }
+
+  .Products-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 380px) {
+  .Products-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* src/Pages/Products/Products.css */
+.ProductSkeleton {
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+}
+
+.ProductSkeleton-image {
+  aspect-ratio: 1 / 1;
+  width: 100%;
+}
+
+.ProductSkeleton-info {
+  padding: var(--space-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+/* Reusamos el .skeleton que ya definimos antes */
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-bg-secondary) 0%,
+    var(--color-bg-elevated) 50%,
+    var(--color-bg-secondary) 100%
+  );
+  background-size: 800px 100%;
+  animation: skeletonShimmer 1.5s linear infinite;
+  border-radius: var(--radius-md);
+}
+
+@keyframes skeletonShimmer {
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
