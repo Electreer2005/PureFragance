@@ -21,7 +21,7 @@ export default function Register() {
     e.preventDefault();
     setLoading(true);
 
-    const result = await login(email, password);
+    const result = await register(name, email, password);
 
     setLoading(false);
 
