@@ -41,6 +41,7 @@ import AdminCoupons from './Pages/Admin/AdminCoupons';
 import InstallApp from './Components/InstallApp/InstallApp';
 import Pending from './Pages/Checkout/Pending';
 // estilos
+import Seo from './Components/Seo/Seo';
 import './App.css';
 import './Animaciones.css';
 
@@ -134,6 +135,7 @@ export default function App() {
           <FavoritesProvider>
             <div className="App-container">
               <Router>
+                <Seo />
                 <AppContent />
                 <InstallApp />
               </Router>

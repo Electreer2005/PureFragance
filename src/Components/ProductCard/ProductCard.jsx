@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 // src/Components/ProductCard/ProductCard.jsx
 import { FaStar, FaHeart, FaRegHeart, FaShoppingBag } from 'react-icons/fa';
 import { useCart } from '../../hooks/useCart';
@@ -55,7 +56,7 @@ export default function ProductCard({ product, formatPrice, onClick }) {
 
       <div className="ProductCard-info">
         <span className="ProductCard-brand">{product.brand}</span>
-        <h3 className="ProductCard-name">{product.name}</h3>
+        <h3 className="ProductCard-name"><Link to={`/producto/${product._id}`} onClick={event => event.stopPropagation()} style={{ color: 'inherit', textDecoration: 'none' }}>{product.name}</Link></h3>
 
         <div className="ProductCard-rating">
           <FaStar />
