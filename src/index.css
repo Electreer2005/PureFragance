@@ -31,17 +31,19 @@
   --gold-700: #A97142;
 
   /* ========== FUNCIONALES ========== */
-  --success: #2E7D32;
-  --success-light: #4CAF50;
-  --warning: #F57C00;
-  --warning-light: #FFB74D;
-  --error: #E63946;
-  --info: #1976D2;
+  --success: var(--color-accent-text);
+  --success-light: var(--gold-500);
+  --warning: var(--color-accent-text);
+  --warning-light: var(--gold-300);
+  --error: var(--color-primary);
+  --info: var(--color-primary);
 
   /* ========== SEMÁNTICOS (MODO CLARO POR DEFECTO) ========== */
   --color-primary: var(--red-500);
   --color-primary-hover: var(--red-700);
   --color-accent: var(--gold-500);
+  --color-accent-text: #806014;
+  color-scheme: light;
 
   /* Fondo predeterminado: claro y limpio */
   --color-bg: #FFFFFF;
@@ -53,7 +55,7 @@
 
   --color-text: var(--neutral-900);
   --color-text-muted: var(--neutral-600);
-  --color-text-subtle: var(--neutral-400);
+  --color-text-subtle: var(--neutral-300);
 
   /* ========== TIPOGRAFÍA ========== */
   --font-display: 'Playfair Display', serif;
@@ -93,6 +95,10 @@
    Útil si tenés un botón de "cambiar tema" en tu web
    ============================================================ */
 .dark-mode {
+  color-scheme: dark;
+  --color-accent-text: var(--gold-300);
+  --color-primary: var(--red-300);
+  --color-primary-hover: var(--red-200);
   --color-bg: var(--neutral-900);
   --color-bg-secondary: var(--neutral-800);
   --color-bg-elevated: var(--neutral-700);
@@ -128,4 +134,18 @@ body {
   font-family: var(--font-body);
   transition: background-color var(--transition-base),
               color var(--transition-base);
+}
+/* Shared keyboard and reduced-motion support. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-accent-text);
+  outline-offset: 4px;
+}
+button, input, select, textarea { font: inherit; }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

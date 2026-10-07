@@ -55,7 +55,7 @@
 }
 
 .Settings-back:hover {
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   gap: var(--space-md);
 }
 
@@ -163,8 +163,8 @@
 }
 
 .Settings-feedback.success {
-  background: rgba(46, 125, 50, 0.1);
-  border: 1px solid rgba(46, 125, 50, 0.3);
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.3);
   border-left-color: var(--success);
   color: var(--success);
 }
@@ -217,7 +217,7 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 1.5px;
-  color: var(--gold-600);
+  color: var(--color-accent-text);
   margin: 0;
 }
 
@@ -276,7 +276,7 @@
 }
 
 .Settings-inputBox:focus-within > svg {
-  color: var(--gold-600);
+  color: var(--color-accent-text);
 }
 
 .Settings-inputBox input {
@@ -307,7 +307,7 @@
 }
 
 .Settings-inputBox button:hover {
-  color: var(--gold-600);
+  color: var(--color-accent-text);
   background: rgba(212, 175, 55, 0.12);
 }
 
@@ -385,7 +385,7 @@
 }
 
 .Settings-toggleInfo > svg {
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   font-size: 1.1rem;
   flex-shrink: 0;
   transition: color var(--transition-fast), transform var(--transition-fast);
@@ -692,7 +692,7 @@
 .Settings-guestNotice > svg {
   position: relative;
   font-size: 2.8rem;
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.4));
 }
 

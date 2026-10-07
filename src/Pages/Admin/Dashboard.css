@@ -76,7 +76,7 @@
 
 .Dashboard-card--gold .Dashboard-cardIcon {
   background: rgba(212, 175, 55, 0.15);
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
@@ -95,9 +95,9 @@
 }
 
 .Dashboard-card--success .Dashboard-cardIcon {
-  background: rgba(46, 125, 50, 0.15);
+  background: rgba(212, 175, 55, 0.15);
   color: var(--success);
-  border: 1px solid rgba(46, 125, 50, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .Dashboard-card--success:hover {
@@ -105,9 +105,9 @@
 }
 
 .Dashboard-card--warning .Dashboard-cardIcon {
-  background: rgba(245, 124, 0, 0.15);
+  background: rgba(212, 175, 55, 0.15);
   color: var(--warning);
-  border: 1px solid rgba(245, 124, 0, 0.3);
+  border: 1px solid rgba(212, 175, 55, 0.3);
 }
 
 .Dashboard-card--warning:hover {
@@ -322,19 +322,19 @@
 }
 
 .AdminStatusBadge.pending {
-  background: rgba(245, 124, 0, 0.12);
+  background: rgba(212, 175, 55, 0.12);
   color: var(--warning);
   border: 1px solid var(--warning);
 }
 
 .AdminStatusBadge.shipped {
-  background: rgba(25, 118, 210, 0.12);
+  background: rgba(200, 16, 46, 0.12);
   color: var(--info);
   border: 1px solid var(--info);
 }
 
 .AdminStatusBadge.delivered {
-  background: rgba(46, 125, 50, 0.12);
+  background: rgba(212, 175, 55, 0.12);
   color: var(--success);
   border: 1px solid var(--success);
 }

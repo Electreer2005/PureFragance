@@ -42,7 +42,7 @@
   width: 88px;
   height: 88px;
   border-radius: var(--radius-full);
-  background: rgba(46, 125, 50, 0.12);
+  background: rgba(212, 175, 55, 0.12);
   border: 2px solid var(--success);
   color: var(--success);
   display: flex;
@@ -121,7 +121,7 @@
 }
 
 .OrderSuccess-summaryRow > svg {
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   font-size: 1rem;
   margin-top: 3px;
   flex-shrink: 0;
