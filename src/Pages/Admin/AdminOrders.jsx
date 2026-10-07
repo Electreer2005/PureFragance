@@ -29,6 +29,15 @@ const STATUS_OPTIONS = [
   { value: 'cancelled', label: 'Cancelado' },
 ];
 
+function canChangeStatus(order, status) {
+  if (status === order.status) return true;
+  if (['cancelled', 'delivered'].includes(order.status)) return false;
+  if (status === 'cancelled') return true;
+  if (status === 'pending') return false;
+  if (order.status !== 'pending' && !(order.status === 'shipped' && status === 'delivered')) return false;
+  return order.stockStatus !== 'unavailable' && (order.paymentStatus === 'approved' || (status === 'shipped' && order.paymentMethod === 'cash'));
+}
+
 const FILTERS = [
   { id: 'all', label: 'Todos' },
   { id: 'pending', label: 'Pendientes' },
@@ -45,6 +54,7 @@ export default function AdminOrders() {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState(null);
   const [updatingId, setUpdatingId] = useState(null);
+  const [emailWarning, setEmailWarning] = useState('');
 
   // ============================================================
   // CARGAR
@@ -98,11 +108,14 @@ export default function AdminOrders() {
   // CAMBIAR ESTADO
   // ============================================================
   const handleStatusChange = async (orderId, newStatus) => {
+  if (newStatus === 'cancelled' && !window.confirm('¿Cancelar este pedido? Si tiene un pago recibido, el reembolso se gestiona por el medio de pago.')) return;
   setUpdatingId(orderId);
+  setEmailWarning('');
   try {
-    const updated = await updateOrderStatus(orderId, newStatus);
+    const { order: updated, notification } = await updateOrderStatus(orderId, newStatus);
     setOrders((prev) => prev.map((o) => (o._id === orderId ? updated : o)));
-    toasts.orderStatusUpdated(newStatus);
+    toasts.orderStatusUpdated(STATUS_OPTIONS.find(option => option.value === newStatus)?.label || newStatus);
+    if (notification?.sent === false) setEmailWarning('El pedido se actualizó, pero no se pudo enviar el email. ' + notification.message);
   } catch (err) {
     toast.error(err.response?.data?.message || 'Error al actualizar');
   } finally {
@@ -113,9 +126,11 @@ export default function AdminOrders() {
   async function updatePayment(order, stock = false) {
     if (!stock && !window.confirm('¿Confirmás que recibiste el pago de este pedido?')) return;
     setUpdatingId(order._id);
+    setEmailWarning('');
     try {
       const { data } = await api.put(`/orders/${order._id}/${stock ? 'stock' : 'payment'}`);
       setOrders(prev => prev.map(o => o._id === order._id ? data.order : o));
+      if (data.notification?.sent === false) setEmailWarning('El pago se confirmó, pero no se pudo enviar el email. ' + data.notification.message);
       toast.success(data.order.stockStatus === 'unavailable' ? 'Todavía falta stock' : 'Pedido actualizado');
     } catch (e) { toast.error(e.response?.data?.message || 'No se pudo confirmar'); }
     finally { setUpdatingId(null); }
@@ -146,6 +161,7 @@ export default function AdminOrders() {
 
   return (
     <div className="AdminOrders">
+      {emailWarning && <p role="alert">{emailWarning}</p>}
       {error && <p role="alert">{error} <button onClick={load}>Reintentar</button></p>}
       {/* HEADER */}
       <div className="AdminOrders-header">
@@ -246,10 +262,11 @@ export default function AdminOrders() {
                       onChange={(e) =>
                         handleStatusChange(order._id, e.target.value)
                       }
-                      disabled={updatingId === order._id}
+                      disabled={updatingId === order._id || ['cancelled', 'delivered'].includes(order.status)}
+                      aria-label={`Estado del pedido ${order.orderNumber}`}
                     >
                       {STATUS_OPTIONS.map((opt) => (
-                        <option key={opt.value} value={opt.value}>
+                        <option key={opt.value} value={opt.value} disabled={!canChangeStatus(order, opt.value)}>
                           {opt.label}
                         </option>
                       ))}
