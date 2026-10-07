@@ -6,7 +6,7 @@ test('cupones, transferencia, reseñas y PWA sin caché de datos privados', asyn
  const errors = []; page.on('pageerror', e => errors.push(e.message));
  const product = { _id:'507f1f77bcf86cd799439011', name:'Pure Noir', brand:'PureFragance', price:10000, stock:5, rating:0, reviewsCount:0, category:'unisex', description:'Fragancia de prueba', image:'/icons/icon-192.png', sizes:[{ml:50,price:10000}], notes:{top:['Bergamota']} };
  const customer = { fullName:'Mauricio', email:'client@example.com', phone:'1122334455', address:'Calle 123', city:'CABA', province:'Buenos Aires', zipCode:'1000' };
- const order = { _id:'507f1f77bcf86cd799439012', orderNumber:'ORD-TEST', items:[{productId:product._id,name:product.name,image:product.image,ml:50,price:10000,quantity:1}], customer, subtotal:10000, shipping:1500, total:9600, discount:1900, paymentMethod:'transfer', paymentStatus:'pending', status:'pending', createdAt:new Date().toISOString() };
+ const order = { _id:'507f1f77bcf86cd799439012', orderNumber:'ORD-TEST', items:[{productId:product._id,name:product.name,image:product.image,ml:50,price:10000,quantity:1}], customer, subtotal:10000, shipping:8000, total:16100, discount:1900, paymentMethod:'transfer', paymentStatus:'pending', status:'pending', createdAt:new Date().toISOString() };
  await context.addInitScript(({product}) => {localStorage.setItem('token','test');localStorage.setItem('user',JSON.stringify({id:'u1',name:'Mauricio',email:'client@example.com',role:'admin'}));localStorage.setItem('cart',JSON.stringify([{itemId:product._id+'-50',productId:product._id,name:product.name,image:product.image,ml:50,price:10000,quantity:1}]));}, {product});
  let reviewCount=0, submitted;
  await page.route('**/api/**', async route => {
@@ -15,7 +15,7 @@ test('cupones, transferencia, reseñas y PWA sin caché de datos privados', asyn
   else if(url.pathname.endsWith('/coupons/quote')) {
    const body=request.postDataJSON();
    if(body.couponCode==='INVALIDO') {status=400;data={message:'El cupón no existe'};}
-   else {const transfer=body.paymentMethod==='transfer'?1000:0, discount=body.couponCode?900:0;data={quote:{items:order.items,subtotal:10000,shipping:1500,transferDiscount:transfer,couponDiscount:discount,total:11500-transfer-discount}};}
+   else {const transfer=body.paymentMethod==='transfer'?1000:0, discount=body.couponCode?900:0;data={quote:{items:order.items,subtotal:10000,shipping:8000,transferDiscount:transfer,couponDiscount:discount,total:18000-transfer-discount}};}
   } else if(url.pathname.endsWith('/orders') && request.method()==='POST') {submitted=request.postDataJSON();data={order};}
   else if(url.pathname.endsWith('/reviews')) {
    if(request.method()==='PUT') {reviewCount=1;data={review:{}};}
@@ -35,7 +35,7 @@ test('cupones, transferencia, reseñas y PWA sin caché de datos privados', asyn
  for(const [name,value] of Object.entries(customer)) {const input=page.locator(`[name="${name}"]`);if(await input.count()) await input.fill(value);}
  
  await page.getByRole('button',{name:'Confirmar pedido'}).click();await page.getByText('¡Gracias por tu compra!').waitFor();
- assert.equal(submitted.couponCode,'TEST10'); assert.equal(submitted.expectedTotal,9600);
+ assert.equal(submitted.couponCode,'TEST10'); assert.equal(submitted.expectedTotal,16100);
  await page.goto('http://127.0.0.1:4173/producto/'+product._id);
  await page.getByRole('heading',{name:'Opiniones de clientes'}).waitFor();
  await page.getByLabel('Comentario').fill('Muy buena fragancia');await page.getByRole('button',{name:'Publicar reseña'}).click();await page.getByText('Tu reseña fue guardada.').waitFor();
