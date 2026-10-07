@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Admin/AdminOrders.jsx
 import api from '../../services/api';
 import { useState, useEffect, useMemo } from 'react';
@@ -139,7 +140,7 @@ export default function AdminOrders() {
   if (loading) {
     return (
       <div className="AdminOrders">
-        <div className="AdminOrders-loading">Cargando pedidos...</div>
+        <Loading inline message="Cargando pedidos" />
       </div>
     );
   }

@@ -1,3 +1,4 @@
+import Loading from '../Components/Loading/Loading';
 // src/routes/ProtectedRoute.jsx
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -8,7 +9,7 @@ export default function ProtectedRoute() {
   const { isAuthenticated, isGuest, loading } = useAuth();
 
   // Mientras se verifica el token, no redirigimos todavía
-  if (loading) return <div>Cargando...</div>;
+  if (loading) return <Loading message="Cargando tu cuenta" />;
 
   // Si no está autenticado, redirige al login
   if (!publicPage && !isAuthenticated && !isGuest) {

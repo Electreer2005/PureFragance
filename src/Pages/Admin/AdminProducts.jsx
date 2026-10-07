@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Admin/AdminProducts.jsx
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -119,7 +120,7 @@ export default function AdminProducts() {
 
       {/* TABLA / ESTADOS */}
       {loading ? (
-        <div className="AdminProducts-loading">Cargando productos...</div>
+        <Loading inline message="Cargando productos" />
       ) : filtered.length === 0 ? (
         <EmptyState
           title="No hay productos"

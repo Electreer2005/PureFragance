@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 import { useEffect, useState } from 'react';
 import api from '../../services/api';
 import toast from 'react-hot-toast';
@@ -5,6 +6,7 @@ import { formatPrice } from '../../services/productsService';
 import './AdminCoupons.css';
 const initial = { code: '', type: 'percent', value: 10, minSubtotal: 0, startsAt: '', expiresAt: '' };
 export default function AdminCoupons() {
+  const [loading, setLoading] = useState(true);
   const [coupons, setCoupons] = useState([]);
   const [form, setForm] = useState(initial);
   const [busy, setBusy] = useState(false);
@@ -16,7 +18,8 @@ export default function AdminCoupons() {
   useEffect(() => {
     let active = true;
     api.get('/coupons').then(({ data }) => { if (active) setCoupons(data.coupons); })
-      .catch(e => { if (active) setError(e.response?.data?.message || 'No se pudieron cargar los cupones'); });
+      .catch(e => { if (active) setError(e.response?.data?.message || 'No se pudieron cargar los cupones'); })
+      .finally(() => { if (active) setLoading(false); });
     return () => { active = false; };
   }, []);
   async function submit(e) {
@@ -36,6 +39,7 @@ export default function AdminCoupons() {
     finally { setBusy(false); }
   }
   const field = e => setForm(f => ({ ...f, [e.target.name]: e.target.value }));
+  if (loading) return <Loading inline message="Cargando los cupones" />;
   return <section className="AdminCoupons">
     <h1>Cupones de <span className="text-gold">descuento</span></h1>
     <p>Creá códigos para el checkout. Se aplican sobre productos, después del descuento por transferencia.</p>

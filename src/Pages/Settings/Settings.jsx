@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Settings/Settings.jsx
 import { useState } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
@@ -25,7 +26,7 @@ export default function Settings() {
     // ============================================================
     // GUARDS
     // ============================================================
-    if (loading) return <div className="Settings-loading">Cargando...</div>;
+    if (loading) return <Loading message="Cargando tu cuenta" />;
     if (!user) return <Navigate to="/login" replace />;
 
     // Invitados no pueden editar cuenta

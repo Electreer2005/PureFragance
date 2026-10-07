@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/OrderSuccess/OrderSuccess.jsx
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -56,15 +57,7 @@ export default function OrderSuccess() {
 
   const date = order?.createdAt || order?.date;
 
-  if (loading) {
-    return (
-      <div className="OrderSuccess">
-        <div className="OrderSuccess-card">
-          <p>Cargando tu pedido...</p>
-        </div>
-      </div>
-    )
-  }
+  if (loading) return <Loading inline message="Cargando tu pedido" />;
 
   if (!order) return <div className="OrderSuccess"><p>El pago está en proceso. Revisá el estado desde Mis pedidos si tenés una cuenta.</p><button className="btn-primary" onClick={() => navigate('/pedidos')}>Ver mis pedidos</button></div>;
 

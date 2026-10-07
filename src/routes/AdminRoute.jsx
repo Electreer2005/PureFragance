@@ -1,3 +1,4 @@
+import Loading from '../Components/Loading/Loading';
 // src/routes/AdminRoute.jsx
 import { Navigate, Outlet } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
@@ -5,7 +6,7 @@ import { useAuth } from '../hooks/useAuth';
 export default function AdminRoute() {
   const { user, isAuthenticated, loading } = useAuth();
 
-  if (loading) return <div className="AdminRoute-loading">Cargando...</div>;
+  if (loading) return <Loading message="Cargando tu cuenta" />;
 
   // No logueado → al login
   if (!isAuthenticated) {

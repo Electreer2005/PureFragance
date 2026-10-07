@@ -12,6 +12,7 @@ import ProtectedRoute from './routes/ProtectedRoute';
 //Componentes
 import Header from './Components/Header/Header';
 import Footer from './Components/Footer/Footer';
+import RouteLoading from './Components/Loading/RouteLoading';
 import Loading from './Components/Loading/Loading';
 // Pantallas
 import Welcome from './Pages/Welcome/Welcome';
@@ -135,6 +136,7 @@ export default function App() {
           <FavoritesProvider>
             <div className="App-container">
               <Router>
+                <RouteLoading />
                 <Seo />
                 <AppContent />
                 <InstallApp />

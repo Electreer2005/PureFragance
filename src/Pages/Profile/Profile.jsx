@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Profile/Profile.jsx
 import { useState, useEffect } from 'react';
 import api from '../../services/api';
@@ -35,7 +36,7 @@ export default function Profile() {
     return () => { active = false; };
   }, [isAuthenticated, user?.id, attempt]);
 
-  if (loading) return <div className="Profile-loading">Cargando...</div>;
+  if (loading) return <Loading message="Cargando tu cuenta" />;
   if (!user) return <Navigate to="/login" replace />;
 
   const handleLogout = () => {

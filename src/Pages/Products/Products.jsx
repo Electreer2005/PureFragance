@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Products/Products.jsx
 import { useState, useEffect, useMemo } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
@@ -164,18 +165,7 @@ export default function Products() {
         <main className="Products-main">
           {/* ========== LOADING ========== */}
           {loading && (
-            <div className="Products-grid">
-              {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="ProductSkeleton">
-                  <div className="ProductSkeleton-image skeleton" />
-                  <div className="ProductSkeleton-info">
-                    <div className="skeleton" style={{ height: 12, width: '40%' }} />
-                    <div className="skeleton" style={{ height: 18, width: '80%' }} />
-                    <div className="skeleton" style={{ height: 24, width: '50%' }} />
-                  </div>
-                </div>
-              ))}
-            </div>
+            <Loading inline message="Cargando el catálogo" />
           )}
 
           {/* ========== ERROR ========== */}

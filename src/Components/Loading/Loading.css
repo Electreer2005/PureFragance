@@ -160,3 +160,6 @@
     letter-spacing: 2px;
   }
 }
+/* The same animation inside a data section, without blocking navigation. */
+.Loading-container--inline { position: relative; inset: auto; min-height: 280px; width: 100%; border-radius: var(--radius-lg); z-index: 0; }
+.Loading-container--inline .Loading-logo { transform: scale(0.75); }

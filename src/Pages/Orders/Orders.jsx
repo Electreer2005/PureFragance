@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Orders/Orders.jsx
 import { useState, useMemo } from 'react';
 import { useNavigate, Navigate } from 'react-router-dom';
@@ -80,7 +81,7 @@ export default function Orders() {
   // ============================================================
   // GUARDS
   // ============================================================
-  if (authLoading) return <div className="Orders-loading">Cargando...</div>;
+  if (authLoading) return <Loading message="Cargando tu cuenta" />;
   if (!user) return <Navigate to="/login" replace />;
 
   if (isGuest) {
@@ -113,28 +114,7 @@ export default function Orders() {
   // ============================================================
   // ESTADO DE CARGA / ERROR
   // ============================================================
-  if (loading) {
-    return (
-      <div className="Orders">
-        <div className="Orders-header">
-          <h1 className="Orders-title">
-            Mis <span className="text-gold">pedidos</span>
-          </h1>
-          <p className="Orders-subtitle">Cargando tus pedidos...</p>
-        </div>
-        <div className="Orders-list">
-          {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className="OrderCard">
-              <div
-                className="skeleton"
-                style={{ height: 90, borderRadius: 12 }}
-              />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <Loading inline message="Cargando tu pedido" />;
 
   if (error) {
     return (
