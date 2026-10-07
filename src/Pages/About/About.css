@@ -304,3 +304,8 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+.About-story > *, .About-storyStats > * { min-width: 0; }
+.About-statValue { font-size: 1.5rem; overflow-wrap: anywhere; }
+@media (max-width: 480px) { .About-storyStats { grid-template-columns: 1fr; } }
+
+.About .text-gold { background: none; -webkit-text-fill-color: currentColor; color: var(--color-accent-text); }

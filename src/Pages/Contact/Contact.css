@@ -428,3 +428,5 @@ a.Contact-infoValue:hover {
     align-self: stretch;
   }
 }
+.Contact .text-gold { background: none; -webkit-text-fill-color: currentColor; color: var(--color-accent-text); }
+.Contact-note, .Contact-infoLabel, .Contact-inputBox > svg { color: var(--color-text-muted); }
