@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Admin/AdminProductForm.jsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
@@ -263,7 +264,7 @@ export default function AdminProductForm() {
   if (loading) {
     return (
       <div className="AdminProductForm">
-        <div className="AdminProductForm-loading">Cargando producto...</div>
+        <Loading inline message="Cargando producto" />
       </div>
     );
   }

@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/ProductDetail/ProductDetail.jsx
 import { useState, useEffect } from 'react';
 import { useParams, useNavigate, Navigate } from 'react-router-dom';
@@ -75,15 +76,7 @@ export default function ProductDetail() {
   // ============================================================
   // GUARDS
   // ============================================================
-  if (loading) {
-    return (
-      <div className="ProductDetail">
-        <div className="ProductDetail-loading">
-          <div className="skeleton" style={{ width: '100%', height: '400px', borderRadius: 16 }} />
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <Loading inline message="Cargando la fragancia" />;
 
   if (error || !product) {
     return <Navigate to="/productos" replace />;

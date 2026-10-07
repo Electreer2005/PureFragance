@@ -1,9 +1,9 @@
 // src/Components/Loading/Loading.jsx
 import './Loading.css';
 
-export default function Loading({ message = 'Cargando...' }) {
+export default function Loading({ message = 'Cargando', inline = false }) {
   return (
-    <div className="Loading-container" role="status" aria-live="polite">
+    <div className={`Loading-container${inline ? ' Loading-container--inline' : ''}`} role="status" aria-live="polite">
       <div className="Loading-content">
         <div className="Loading-logo">
           <div className="Loading-ring"></div>
@@ -14,7 +14,7 @@ export default function Loading({ message = 'Cargando...' }) {
 
         <p className="Loading-text">
           {message}
-          <span className="Loading-dots">
+          <span className="Loading-dots" aria-hidden="true">
             <span>.</span><span>.</span><span>.</span>
           </span>
         </p>

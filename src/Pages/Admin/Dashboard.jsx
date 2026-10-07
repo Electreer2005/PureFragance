@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Admin/Dashboard.jsx
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -33,7 +34,7 @@ export default function Dashboard() {
   }, []);
 
   if (loading || !stats) {
-    return <div className="AdminLoading">Cargando dashboard...</div>;
+    return <Loading inline message="Cargando el panel" />;
   }
 
   const cards = [

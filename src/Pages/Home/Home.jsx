@@ -1,3 +1,4 @@
+import Loading from '../../Components/Loading/Loading';
 // src/Pages/Home/Home.jsx
 import { useNavigate } from 'react-router-dom';
 import Banner from '../../Components/Banner/Banner';
@@ -79,18 +80,7 @@ export default function Home() {
         </div>
 
         {loading ? (
-          <div className="Product-grid">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className="ProductSkeleton">
-                <div className="ProductSkeleton-image skeleton" />
-                <div className="ProductSkeleton-info">
-                  <div className="skeleton" style={{ height: 12, width: '40%' }} />
-                  <div className="skeleton" style={{ height: 18, width: '80%' }} />
-                  <div className="skeleton" style={{ height: 24, width: '50%' }} />
-                </div>
-              </div>
-            ))}
-          </div>
+          <Loading inline message="Cargando las fragancias destacadas" />
         ) : (
           <div className="Product-grid">
             {featured.map((product) => (
