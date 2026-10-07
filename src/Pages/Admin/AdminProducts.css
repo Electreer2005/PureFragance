@@ -273,7 +273,7 @@
 }
 
 .AdminProducts-actionBtn.edit:hover {
-  background: rgba(25, 118, 210, 0.1);
+  background: rgba(200, 16, 46, 0.1);
   border-color: var(--info);
   color: var(--info);
 }

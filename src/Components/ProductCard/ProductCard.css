@@ -222,7 +222,7 @@
   display: inline-flex;
   align-items: center;
   gap: 4px;
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   font-size: 0.85rem;
   margin-top: 2px;
 }

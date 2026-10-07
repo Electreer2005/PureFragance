@@ -29,7 +29,7 @@
 }
 
 .text-gold {
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   font-style: italic;
 }
 

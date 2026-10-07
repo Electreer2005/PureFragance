@@ -33,7 +33,7 @@
 
 .Benefit-icon {
   font-size: 2rem;
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   margin-bottom: var(--space-md);
   display: inline-flex;
   align-items: center;

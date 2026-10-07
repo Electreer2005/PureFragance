@@ -52,7 +52,7 @@
   z-index: 1;
   width: 100%;
   max-width: 420px;
-  background: var(--neutral-100);
+  background: var(--color-bg-secondary);
   padding: 44px 40px 36px;
   border-radius: var(--radius-lg);
   box-shadow:
@@ -70,7 +70,7 @@
   font-family: var(--font-display);
   font-size: 30px;
   font-weight: 700;
-  color: var(--red-700);
+  color: var(--color-primary);
   text-align: center;
   margin-bottom: 6px;
   letter-spacing: -0.5px;
@@ -94,7 +94,7 @@
 .label-form {
   display: block;
   margin-bottom: 8px;
-  color: var(--neutral-600);
+  color: var(--color-text-muted);
   font-size: 13px;
   font-weight: 600;
   letter-spacing: 0.3px;
@@ -109,10 +109,10 @@
   display: flex;
   align-items: center;
   height: 52px;
-  border: 1.5px solid var(--neutral-300);
+  border: 1.5px solid var(--color-border-light);
   border-radius: var(--radius-md);
   padding: 0 16px;
-  background-color: var(--neutral-50);
+  background-color: var(--color-bg-elevated);
   transition: border-color var(--transition-fast),
               box-shadow var(--transition-fast),
               background-color var(--transition-fast);
@@ -121,7 +121,7 @@
 /* Estado focus: borde dorado + glow */
 .Input-box:focus-within {
   border-color: var(--gold-500);
-  background-color: #fff;
+  background-color: var(--color-bg);
   box-shadow: 0 0 0 4px rgba(212, 175, 55, 0.15);
 }
 
@@ -134,22 +134,22 @@
   background: transparent;
   font-size: 15px;
   font-family: var(--font-body);
-  color: var(--neutral-800);
+  color: var(--color-text);
 }
 
 .input-form::placeholder {
-  color: var(--neutral-400);
+  color: var(--color-text-subtle);
 }
 
 .Icon {
   font-size: 16px;
-  color: var(--neutral-500);
+  color: var(--color-text-muted);
   transition: color var(--transition-fast);
   flex-shrink: 0;
 }
 
 .Input-box:focus-within .Icon {
-  color: var(--gold-600);
+  color: var(--color-accent-text);
 }
 
 .Input-box button {
@@ -179,7 +179,7 @@
 .Forgot-Password a,
 .LoginLink a,
 .RegisterLink a {
-  color: var(--gold-600);
+  color: var(--color-accent-text);
   font-weight: 600;
   font-size: 14px;
   transition: color var(--transition-fast);
@@ -197,9 +197,9 @@
   padding-top: 20px;
   margin-top: 22px;
   text-align: center;
-  border-top: 1px solid var(--neutral-200);
+  border-top: 1px solid var(--color-border);
   font-size: 14px;
-  color: var(--neutral-600);
+  color: var(--color-text-muted);
 }
 
 .LoginLink p,
@@ -224,8 +224,8 @@
    MENSAJE DE ERROR
    ============================================================ */
 .error-message {
-  background: var(--red-50);
-  color: var(--red-700);
+  background: var(--color-bg-secondary);
+  color: var(--color-primary);
   padding: 12px 16px;
   border-left: 4px solid var(--red-500);
   border-radius: var(--radius-sm);
@@ -290,7 +290,7 @@
   z-index: 1;
   width: 100%;
   max-width: 420px;
-  background: var(--neutral-100);
+  background: var(--color-bg-secondary);
   padding: 44px 40px 36px;
   border-radius: var(--radius-lg);
   box-shadow:
@@ -303,7 +303,7 @@
 /* Subtítulo reutilizable (Login, Register, Forgot) */
 .form-subtitle {
   text-align: center;
-  color: var(--neutral-600);
+  color: var(--color-text-muted);
   font-size: 14px;
   line-height: 1.55;
   margin: 0 auto 26px;
@@ -331,7 +331,7 @@
   font-size: 56px;
   color: var(--success);
   margin-bottom: 8px;
-  filter: drop-shadow(0 4px 12px rgba(46, 125, 50, 0.35));
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.35));
   animation: popIn 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -349,7 +349,7 @@
 
 .helper-text {
   font-size: 12.5px;
-  color: var(--neutral-500);
+  color: var(--color-text-muted);
   margin: 4px 0 24px;
   line-height: 1.5;
 }
@@ -375,7 +375,7 @@
   z-index: 1;
   width: 100%;
   max-width: 440px;
-  background: var(--neutral-100);
+  background: var(--color-bg-secondary);
   padding: 44px 40px 36px;
   border-radius: var(--radius-lg);
   box-shadow:
@@ -394,7 +394,7 @@
 
 .header-icon {
   font-size: 34px;
-  color: var(--gold-600);
+  color: var(--color-accent-text);
   margin-bottom: 6px;
   filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.35));
 }
@@ -404,7 +404,7 @@
    ============================================================ */
 .Input-box--error {
   border-color: var(--error);
-  background-color: #fff5f5;
+  background-color: var(--color-bg);
 }
 
 .Input-box--error:focus-within {
@@ -440,7 +440,7 @@
   align-items: center;
   gap: 8px;
   font-size: 12.5px;
-  color: var(--neutral-500);
+  color: var(--color-text-muted);
   transition: color var(--transition-fast);
 }
 
@@ -448,7 +448,7 @@
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--neutral-300);
+  background: var(--color-border-light);
   flex-shrink: 0;
   transition: background var(--transition-fast),
               box-shadow var(--transition-fast),
@@ -462,7 +462,7 @@
 
 .password-rules li.ok .dot {
   background: var(--success-light);
-  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.2);
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
   transform: scale(1.15);
 }
 
@@ -512,7 +512,7 @@
 .btn-primary.as-link:hover {
   transform: translateY(-2px);
   box-shadow: 0 8px 24px rgba(200, 16, 46, 0.4);
-  color: #fff;
+  color: var(--neutral-900);
   text-decoration: none;
 }
 
@@ -528,3 +528,5 @@
     grid-template-columns: 1fr;
   }
 }
+
+.dark-mode :is(.login-form, .register-form, .forgot-form, .reset-form) .title { color: var(--red-200); }

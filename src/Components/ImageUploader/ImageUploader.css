@@ -54,12 +54,12 @@
 
 .ImageUploader-icon {
   font-size: 2rem;
-  color: var(--gold-500);
+  color: var(--color-accent-text);
 }
 
 .ImageUploader-spinner {
   font-size: 2rem;
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   animation: spin 1s linear infinite;
 }
 
@@ -74,7 +74,7 @@
 }
 
 .ImageUploader-text strong {
-  color: var(--gold-500);
+  color: var(--color-accent-text);
 }
 
 .ImageUploader-hint {

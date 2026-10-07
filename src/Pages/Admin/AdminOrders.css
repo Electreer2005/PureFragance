@@ -231,19 +231,19 @@
 }
 
 .AdminOrderCard-status.pending {
-  background: rgba(245, 124, 0, 0.12);
+  background: rgba(212, 175, 55, 0.12);
   color: var(--warning);
   border-color: var(--warning);
 }
 
 .AdminOrderCard-status.shipped {
-  background: rgba(25, 118, 210, 0.12);
+  background: rgba(200, 16, 46, 0.12);
   color: var(--info);
   border-color: var(--info);
 }
 
 .AdminOrderCard-status.delivered {
-  background: rgba(46, 125, 50, 0.12);
+  background: rgba(212, 175, 55, 0.12);
   color: var(--success);
   border-color: var(--success);
 }
@@ -276,7 +276,7 @@
 }
 
 .AdminOrderCard-expandBtn:hover {
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   border-color: var(--gold-500);
 }
 

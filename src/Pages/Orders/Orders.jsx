@@ -54,25 +54,6 @@ export default function Orders() {
   const [expanded, setExpanded] = useState(null);
 
   // ============================================================
-  // GUARDS
-  // ============================================================
-  if (authLoading) return <div className="Orders-loading">Cargando...</div>;
-  if (!user) return <Navigate to="/login" replace />;
-
-  if (isGuest) {
-    return (
-      <div className="Orders">
-        <EmptyState
-          title="Necesitás una cuenta"
-          message="Para ver tus pedidos y su seguimiento, creá una cuenta o iniciá sesión."
-          actionLabel="Iniciar sesión"
-          onAction={() => navigate('/login')}
-        />
-      </div>
-    );
-  }
-
-  // ============================================================
   // FILTRADO
   // ============================================================
   const filteredOrders = useMemo(() => {
@@ -95,6 +76,25 @@ export default function Orders() {
 
   return result;
 }, [orders, filter, search]);
+
+  // ============================================================
+  // GUARDS
+  // ============================================================
+  if (authLoading) return <div className="Orders-loading">Cargando...</div>;
+  if (!user) return <Navigate to="/login" replace />;
+
+  if (isGuest) {
+    return (
+      <div className="Orders">
+        <EmptyState
+          title="Necesitás una cuenta"
+          message="Para ver tus pedidos y su seguimiento, creá una cuenta o iniciá sesión."
+          actionLabel="Iniciar sesión"
+          onAction={() => navigate('/login')}
+        />
+      </div>
+    );
+  }
 
   // ============================================================
   // HELPERS

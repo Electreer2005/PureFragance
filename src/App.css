@@ -4,7 +4,7 @@
 .btn-primary {
   position: relative;
   overflow: hidden;
-  background: var(--color-primary);
+  background: var(--red-500);
   color: #fff;
   border: none;
   padding: var(--space-md) var(--space-xl);
@@ -31,12 +31,13 @@
   border-radius: inherit;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
+  color: var(--neutral-900);
   transform: translateY(-2px);
   box-shadow: var(--shadow-gold);
 }
 
-.btn-primary:hover::after {
+.btn-primary:hover:not(:disabled)::after {
   transform: scaleX(1);
   transform-origin: left;
 }
@@ -51,7 +52,7 @@
 .btn-secondary {
   position: relative;
   background: transparent;
-  color: var(--gold-500);
+  color: var(--color-accent-text);
   border: 2px solid var(--gold-500);
   padding: calc(var(--space-md) - 2px) var(--space-xl);
   border-radius: var(--radius-full);
@@ -94,3 +95,11 @@
   animation: pulse 0.6s ease-out;
 }
 
+
+.btn-primary:disabled, .btn-secondary:disabled { cursor: not-allowed; opacity: 0.65; transform: none; }
+/* Payment provider return screen uses the same surfaces as checkout. */
+.Checkout-pending { min-height: 60vh; display: grid; place-items: center; padding: 40px 20px; }
+.Checkout-pendingCard { width: min(100%, 560px); padding: 32px; text-align: center; background: var(--color-bg-elevated); border: 1px solid var(--color-border); border-top: 3px solid var(--gold-500); border-radius: var(--radius-lg); }
+.Checkout-pendingIcon { font-size: 48px; color: var(--color-accent-text); }
+.Checkout-pendingCard h1 { margin: 20px 0; }
+.Checkout-pendingCard p { color: var(--color-text-muted); line-height: 1.6; margin-bottom: 24px; overflow-wrap: anywhere; }

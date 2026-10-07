@@ -370,3 +370,6 @@
     background-attachment: scroll;
   }
 }
+/* Bright gold stays readable over the photographic hero in either theme. */
+.hero .btn-secondary { color: var(--gold-300); }
+.hero .btn-secondary:hover { color: var(--neutral-900); }
