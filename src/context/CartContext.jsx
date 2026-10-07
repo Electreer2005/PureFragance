@@ -141,9 +141,9 @@ export function CartProvider({ children }) {
 
     const itemCount = items.reduce((acc, item) => acc + item.quantity, 0);
 
-    // Envío gratis a partir de $30.000
-    const FREE_SHIPPING_THRESHOLD = 30000;
-    const SHIPPING_COST = 1500;
+    // Envío gratis a partir de $100.000
+    const FREE_SHIPPING_THRESHOLD = 100000;
+    const SHIPPING_COST = 8000;
 
     const shipping =
       subtotal === 0 || subtotal >= FREE_SHIPPING_THRESHOLD

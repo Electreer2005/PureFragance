@@ -6,7 +6,7 @@ const BENEFITS = [
   {
     icon: <FaTruck />,
     title: 'Envío gratis',
-    text: 'En compras superiores a $30.000',
+    text: 'En compras desde $100.000',
   },
   {
     icon: <FaGift />,

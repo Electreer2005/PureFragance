@@ -32,14 +32,14 @@ const SHIPPING_METHODS = [
         id: 'standard',
         label: 'Envío estándar',
         description: 'Llega en 3 a 5 días hábiles',
-        cost: 1500,
+        cost: 8000,
         icon: <FaTruck />,
     },
     {
         id: 'express',
         label: 'Envío express',
         description: 'Llega en 24 a 48 horas',
-        cost: 3500,
+        cost: 12000,
         icon: <FaTruck />,
     },
 ];
@@ -160,9 +160,9 @@ export default function Checkout() {
     // ============================================================
     // CÁLCULOS
     // ============================================================
-    const freeShipping = (quote?.subtotal ?? cartSubtotal) >= 30000 && shippingMethod === 'standard';
+    const freeShipping = (quote?.subtotal ?? cartSubtotal) >= 100000 && shippingMethod === 'standard';
     const subtotal = quote?.subtotal ?? cartSubtotal;
-    const actualShipping = quote?.shipping ?? (shippingMethod === 'express' ? 3500 : subtotal >= 30000 ? 0 : 1500);
+    const actualShipping = quote?.shipping ?? (shippingMethod === 'express' ? 12000 : subtotal >= 100000 ? 0 : 8000);
     const transferDiscount = quote?.transferDiscount ?? (paymentMethod === 'transfer' ? subtotal * .1 : 0);
     const couponDiscount = quote?.couponDiscount ?? 0;
     const total = quote?.total ?? subtotal + actualShipping - transferDiscount;

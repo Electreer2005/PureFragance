@@ -286,7 +286,7 @@ export default function ProductDetail() {
 
           {/* Beneficios */}
           <ul className="ProductDetail-benefits">
-            <li><FaTruck /> <span>Envío gratis en compras superiores a $30.000</span></li>
+            <li><FaTruck /> <span>Envío gratis en compras desde $100.000</span></li>
             <li><FaGift /> <span>Muestra de regalo con cada compra</span></li>
             <li><FaShieldAlt /> <span>Producto 100% original garantizado</span></li>
           </ul>
