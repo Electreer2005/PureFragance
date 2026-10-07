@@ -4,6 +4,8 @@ import api from '../services/api';
 import toast from 'react-hot-toast';
 import { toasts } from '../utils/toast';
 
+// Shared context is imported by useAuth.
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
@@ -15,15 +17,30 @@ export function AuthProvider({ children }) {
   // CARGAR SESIÓN AL INICIAR
   // ============================================================
   useEffect(() => {
+    let active = true;
     const savedToken = localStorage.getItem('token');
-    const savedUser = localStorage.getItem('user');
-
-    if (savedToken && savedUser) {
-      setToken(savedToken);
-      setUser(JSON.parse(savedUser));
+    if (!savedToken) {
+      try {
+        const saved = JSON.parse(localStorage.getItem('user') || 'null');
+        if (saved?.isGuest) queueMicrotask(() => { if (active) setUser(saved); });
+      } catch { localStorage.removeItem('user'); }
+      queueMicrotask(() => { if (active) setLoading(false); });
+      return () => { active = false; };
     }
-
-    setLoading(false);
+    api.get('/auth/me').then(({ data }) => {
+      if (!active) return;
+      setToken(savedToken);
+      setUser(data.user);
+      localStorage.setItem('user', JSON.stringify(data.user));
+    }).catch(() => {
+      // A temporary network failure must not discard a valid saved session.
+      if (!active || !localStorage.getItem('token')) return;
+      try {
+        const saved = JSON.parse(localStorage.getItem('user') || 'null');
+        if (saved && !saved.isGuest) { setToken(savedToken); setUser(saved); }
+      } catch { localStorage.removeItem('user'); }
+    }).finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
 
   // ============================================================

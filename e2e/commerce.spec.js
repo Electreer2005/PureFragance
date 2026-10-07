@@ -11,7 +11,8 @@ test('cupones, transferencia, reseñas y PWA sin caché de datos privados', asyn
  let reviewCount=0, submitted;
  await page.route('**/api/**', async route => {
   const request=route.request(), url=new URL(request.url()); let data={}; let status=200;
-  if(url.pathname.endsWith('/coupons/quote')) {
+  if(url.pathname.endsWith('/auth/me')) data={user:{id:'u1',name:'Mauricio',email:'client@example.com',role:'admin',createdAt:'2026-01-01T00:00:00Z'}};
+  else if(url.pathname.endsWith('/coupons/quote')) {
    const body=request.postDataJSON();
    if(body.couponCode==='INVALIDO') {status=400;data={message:'El cupón no existe'};}
    else {const transfer=body.paymentMethod==='transfer'?1000:0, discount=body.couponCode?900:0;data={quote:{items:order.items,subtotal:10000,shipping:1500,transferDiscount:transfer,couponDiscount:discount,total:11500-transfer-discount}};}

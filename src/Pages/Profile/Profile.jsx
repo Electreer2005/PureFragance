@@ -1,4 +1,7 @@
 // src/Pages/Profile/Profile.jsx
+import { useState, useEffect } from 'react';
+import api from '../../services/api';
+import { useFavorites } from '../../hooks/useFavorites';
 import { useNavigate, Navigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import {
@@ -7,7 +10,6 @@ import {
   FaUserSecret,
   FaBox,
   FaHeart,
-  FaMapMarkerAlt,
   FaSignInAlt,
   FaUserPlus,
   FaCalendarAlt,
@@ -19,6 +21,19 @@ import './Profile.css';
 export default function Profile() {
   const { user, isGuest, isAuthenticated, loading, logout } = useAuth();
   const navigate = useNavigate();
+  const { count: favoriteCount } = useFavorites();
+  const [ordersState, setOrdersState] = useState({ count: null, error: '' });
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    if (!isAuthenticated) return;
+    let active = true;
+    api.get('/orders').then(({ data }) => {
+      if (active) setOrdersState({ count: data.count ?? data.orders.length, error: '' });
+    }).catch(error => {
+      if (active) setOrdersState({ count: null, error: error.response?.data?.message || 'No se pudo cargar el resumen de pedidos' });
+    });
+    return () => { active = false; };
+  }, [isAuthenticated, user?.id, attempt]);
 
   if (loading) return <div className="Profile-loading">Cargando...</div>;
   if (!user) return <Navigate to="/login" replace />;
@@ -47,13 +62,9 @@ export default function Profile() {
         .toUpperCase()
     : '?';
 
-  // Datos mock — después vienen del backend
-  const memberSince = 'Enero 2024';
-  const stats = {
-    orders: 3,
-    favorites: 7,
-    addresses: 1,
-  };
+  const memberSince = user.createdAt && !Number.isNaN(Date.parse(user.createdAt))
+    ? new Date(user.createdAt).toLocaleDateString('es-AR', { month: 'long', year: 'numeric' }) : 'Sin fecha disponible';
+  const stats = { orders: ordersState.count ?? '—', favorites: favoriteCount };
 
   return (
     <div className="Profile-container">
@@ -133,6 +144,7 @@ export default function Profile() {
           ============================================================ */}
       {isAuthenticated && (
         <>
+          {ordersState.error && <p role="alert">{ordersState.error} <button onClick={() => setAttempt(value => value + 1)}>Reintentar</button></p>}
           <div className="Profile-stats">
             <div className="Profile-stat" onClick={() => navigate('/pedidos')}>
               <div className="Profile-statIcon">
@@ -150,19 +162,11 @@ export default function Profile() {
               </div>
               <div className="Profile-statInfo">
                 <span className="Profile-statValue">{stats.favorites}</span>
-                <span className="Profile-statLabel">Favoritos</span>
+                <span className="Profile-statLabel">Favoritos en este dispositivo</span>
               </div>
             </div>
 
-            <div className="Profile-stat" onClick={() => navigate('/direcciones')}>
-              <div className="Profile-statIcon">
-                <FaMapMarkerAlt />
-              </div>
-              <div className="Profile-statInfo">
-                <span className="Profile-statValue">{stats.addresses}</span>
-                <span className="Profile-statLabel">Direcciones</span>
-              </div>
-            </div>
+
           </div>
 
           {/* ============================================================
@@ -214,3 +218,4 @@ export default function Profile() {
     </div>
   );
 }
+
