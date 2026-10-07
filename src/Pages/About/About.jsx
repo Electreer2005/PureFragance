@@ -1,7 +1,6 @@
 // src/Pages/About/About.jsx
 import { useNavigate } from 'react-router-dom';
 import {
-  FaSprayCan,
   FaLeaf,
   FaAward,
   FaHeart,
@@ -14,31 +13,24 @@ import './About.css';
 const VALUES = [
   {
     icon: <FaAward />,
-    title: 'Calidad premium',
-    text: 'Trabajamos solo con fragancias originales de las mejores casas del mundo.',
+    title: 'Encontrá tu aroma',
+    text: 'Queremos ayudarte a comparar las opciones del catálogo y elegir una fragancia para vos.',
   },
   {
     icon: <FaLeaf />,
-    title: 'Sostenibilidad',
-    text: 'Packaging reciclable y proveedores comprometidos con el medio ambiente.',
+    title: 'Tu estilo',
+    text: 'Explorá fragancias para hombre, mujer y unisex según tus preferencias.',
   },
   {
     icon: <FaFlask />,
-    title: 'Curaduría experta',
-    text: 'Cada perfume es seleccionado por nuestro equipo de perfumistas.',
+    title: 'Información clara',
+    text: 'Consultá las notas, presentaciones y precios disponibles en cada producto.',
   },
   {
     icon: <FaGlobeAmericas />,
-    title: 'Envíos a todo el país',
-    text: 'Llegamos a cada rincón de Argentina con envío express en 24hs.',
+    title: 'Compra online',
+    text: 'Revisá las opciones y el costo de envío en el checkout antes de confirmar tu pedido.',
   },
-];
-
-const STATS = [
-  { value: '10K+', label: 'Clientes felices' },
-  { value: '250+', label: 'Fragancias' },
-  { value: '50+', label: 'Marcas exclusivas' },
-  { value: '8', label: 'Años en el mercado' },
 ];
 
 export default function About() {
@@ -50,14 +42,14 @@ export default function About() {
           HERO
           ============================================================ */}
       <section className="About-hero">
-        <span className="About-eyebrow">Nuestra historia</span>
+        <span className="About-eyebrow">Conocé PureFragance</span>
         <h1 className="About-title">
           El arte de <span className="text-gold">encontrar tu esencia</span>
         </h1>
         <p className="About-subtitle">
-          Desde 2017 nos dedicamos a acercarte las fragancias más exclusivas
-          del mundo, seleccionadas con obsesión por el detalle y amor por el
-          perfume.
+          PureFragance es una tienda online de perfumes para hombre, mujer y
+          unisex. Un espacio para descubrir aromas y encontrar una fragancia
+          que acompañe tu estilo.
         </p>
       </section>
 
@@ -67,29 +59,14 @@ export default function About() {
       <section className="About-story">
         <div className="About-storyText">
           <h2 className="About-sectionTitle">
-            Cómo <span className="text-gold">empezó todo</span>
+            Una fragancia, <span className="text-gold">tu estilo</span>
           </h2>
-          <p>
-            Todo comenzó con una obsesión: encontrar la fragancia perfecta.
-            Después de años recorriendo perfumerías de Buenos Aires, París y
-            Dubái, decidimos crear un espacio donde cada persona pudiera
-            descubrir su firma olfativa sin perderse entre miles de opciones.
-          </p>
-          <p>
-            Hoy trabajamos con más de 50 casas de perfumes internacionales y
-            llevamos nuestras selecciones a más de 10.000 clientes en todo el
-            país. Cada perfume que vendemos pasó por nuestras manos, nuestra
-            nariz y nuestro corazón.
-          </p>
+          <p>Un perfume puede acompañar tu día a día, una ocasión especial o convertirse en un regalo. Nuestro catálogo reúne opciones para que puedas explorar y comparar.</p>
+          <p>Si necesitás orientación o tenés una consulta sobre un producto o pedido, podés escribirnos desde la sección de contacto.</p>
         </div>
-
         <div className="About-storyStats">
-          {STATS.map((stat) => (
-            <div key={stat.label} className="About-stat">
-              <span className="About-statValue">{stat.value}</span>
-              <span className="About-statLabel">{stat.label}</span>
-            </div>
-          ))}
+          <div className="About-stat"><span className="About-statValue">Explorá</span><span className="About-statLabel">Compará notas y presentaciones</span></div>
+          <div className="About-stat"><span className="About-statValue">Consultá</span><span className="About-statLabel">Escribinos antes de elegir</span></div>
         </div>
       </section>
 

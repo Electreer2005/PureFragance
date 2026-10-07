@@ -2,12 +2,6 @@
 import { useState } from 'react';
 import {
   FaEnvelope,
-  FaPhoneAlt,
-  FaMapMarkerAlt,
-  FaClock,
-  FaInstagram,
-  FaTwitter,
-  FaFacebookF,
   FaPaperPlane,
   FaCheckCircle,
   FaExclamationTriangle,
@@ -15,36 +9,12 @@ import {
   FaTag,
 } from 'react-icons/fa';
 // src/Pages/Contact/Contact.jsx
-import { toasts } from '../../utils/toast';
+import api from '../../services/api';
+import { CONTACT_EMAIL } from '../../config/contact';
 import toast from 'react-hot-toast';
 import './Contact.css';
 
-const CONTACT_INFO = [
-  {
-    icon: <FaEnvelope />,
-    label: 'Email',
-    value: 'hola@perfumes.com',
-    link: 'mailto:hola@perfumes.com',
-  },
-  {
-    icon: <FaPhoneAlt />,
-    label: 'Teléfono',
-    value: '+54 11 1234-5678',
-    link: 'tel:+541112345678',
-  },
-  {
-    icon: <FaMapMarkerAlt />,
-    label: 'Dirección',
-    value: 'Av. Corrientes 1234, CABA',
-    link: null,
-  },
-  {
-    icon: <FaClock />,
-    label: 'Horarios',
-    value: 'Lun a Vie, 9 a 18hs',
-    link: null,
-  },
-];
+const CONTACT_INFO = [{ icon: <FaEnvelope />, label: 'Email', value: CONTACT_EMAIL, link: `mailto:${CONTACT_EMAIL}` }];
 
 const SUBJECTS = [
   'Consulta general',
@@ -65,6 +35,7 @@ export default function Contact() {
   const [errors, setErrors] = useState({});
   const [sending, setSending] = useState(false);
   const [sent, setSent] = useState(false);
+  const [submitError, setSubmitError] = useState('');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -97,13 +68,20 @@ export default function Contact() {
       return;
     }
 
+    if (sending) return;
     setSending(true);
-    await new Promise((r) => setTimeout(r, 1200));
-    setSending(false);
-    setSent(true);
-    setForm({ name: '', email: '', subject: SUBJECTS[0], message: '' });
-    toasts.messageSent();
-    setTimeout(() => setSent(false), 5000);
+    setSubmitError('');
+    try {
+      await api.post('/contact', form, { timeout: 25000 });
+      setSent(true);
+      setForm({ name: '', email: '', subject: SUBJECTS[0], message: '' });
+    } catch (error) {
+      setSubmitError(error.response?.status === 429
+        ? 'Llegaste al límite de consultas. Probá más tarde o escribinos por email.'
+        : 'No pudimos enviar tu consulta. Intentá nuevamente o escribinos por email.');
+    } finally {
+      setSending(false);
+    }
   };
 
   return (
@@ -117,8 +95,8 @@ export default function Contact() {
           Hablemos de <span className="text-gold">perfumes</span>
         </h1>
         <p className="Contact-subtitle">
-          ¿Tenés una duda, sugerencia o consulta? Nuestro equipo te responde
-          dentro de las 24hs hábiles.
+          ¿Tenés una duda sobre una fragancia o tu pedido? Escribinos desde
+          este formulario o por email.
         </p>
       </section>
 
@@ -148,53 +126,27 @@ export default function Contact() {
             ))}
           </ul>
 
-          <div className="Contact-social">
-            <h3 className="Contact-socialTitle">Seguinos</h3>
-            <div className="Contact-socialLinks">
-              <a
-                href="https://instagram.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-              >
-                <FaInstagram />
-              </a>
-              <a
-                href="https://twitter.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Twitter"
-              >
-                <FaTwitter />
-              </a>
-              <a
-                href="https://facebook.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Facebook"
-              >
-                <FaFacebookF />
-              </a>
-            </div>
-          </div>
+
         </aside>
 
         {/* ========== FORMULARIO ========== */}
-        <form className="Contact-form" onSubmit={handleSubmit}>
+        <form className="Contact-form" onSubmit={handleSubmit} noValidate aria-busy={sending}>
           {sent ? (
-            <div className="Contact-success">
+            <div className="Contact-success" role="status">
               <div className="Contact-successIcon">
                 <FaCheckCircle />
               </div>
-              <h2>¡Mensaje enviado!</h2>
+              <h2>¡Recibimos tu consulta!</h2>
               <p>
-                Gracias por escribirnos. Te vamos a responder a la brevedad al
+                Tu consulta fue enviada a PureFragance. Te responderemos al
                 email que nos dejaste.
               </p>
+              <button type="button" className="btn-secondary" onClick={() => setSent(false)}>Enviar otra consulta</button>
             </div>
           ) : (
             <>
               <h2 className="Contact-formTitle">Envianos un mensaje</h2>
+              {submitError && <p className="Contact-errorMsg" role="alert">{submitError}</p>}
 
               <div className="Contact-row">
                 <div className={`Contact-input ${errors.name ? 'has-error' : ''}`}>
@@ -205,6 +157,9 @@ export default function Contact() {
                       id="name"
                       name="name"
                       type="text"
+                      autoComplete="name"
+                      maxLength={100}
+                      aria-invalid={Boolean(errors.name)}
                       value={form.name}
                       onChange={handleChange}
                       placeholder="Tu nombre"
@@ -225,6 +180,9 @@ export default function Contact() {
                       id="email"
                       name="email"
                       type="email"
+                      autoComplete="email"
+                      maxLength={254}
+                      aria-invalid={Boolean(errors.email)}
                       value={form.email}
                       onChange={handleChange}
                       placeholder="tu@email.com"
@@ -266,6 +224,8 @@ export default function Contact() {
                   onChange={handleChange}
                   placeholder="Contanos en qué podemos ayudarte..."
                   rows={6}
+                  maxLength={5000}
+                  aria-invalid={Boolean(errors.message)}
                 />
                 {errors.message && (
                   <span className="Contact-errorMsg">{errors.message}</span>
@@ -288,7 +248,7 @@ export default function Contact() {
 
               <p className="Contact-note">
                 <FaExclamationTriangle />
-                Te respondemos en 24hs hábiles.
+                Usamos tus datos para responder esta consulta.
               </p>
             </>
           )}

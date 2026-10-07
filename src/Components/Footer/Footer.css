@@ -258,3 +258,8 @@
     text-align: center;
   }
 }
+.Footer-column { min-width: 0; }
+.Footer-contact a { overflow-wrap: anywhere; min-width: 0; }
+
+.Footer .btn-secondary { display: inline-flex; width: fit-content; align-items: center; justify-content: center; }
+.Footer-bottom p { color: var(--color-text-muted); }

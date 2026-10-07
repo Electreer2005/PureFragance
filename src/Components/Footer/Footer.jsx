@@ -4,14 +4,10 @@ import {
   FaSprayCan,
   FaInfoCircle,
   FaEnvelope,
-  FaInstagram,
-  FaTwitter,
-  FaFacebookF,
-  FaMapMarkerAlt,
-  FaPhoneAlt,
   FaHeart,
 } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { CONTACT_EMAIL } from '../../config/contact';
 import Logo from '../../assets/Logo.jpeg';
 import './Footer.css';
 
@@ -25,38 +21,13 @@ export default function Footer() {
         <div className="Footer-column Footer-brand">
           <Link to="/home" className="Footer-logo">
             <img src={Logo} alt="" className="Img-logo" />
-            <h1>Pure Fragance</h1>
+            <h2>PureFragance</h2>
           </Link>
           <p className="Footer-tagline">
             Fragancias exclusivas para hombre y mujer. Elegancia que se siente,
             calidad que se recuerda.
           </p>
-          <div className="Footer-social">
-            <a
-              href="https://instagram.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Instagram"
-            >
-              <FaInstagram />
-            </a>
-            <a
-              href="https://twitter.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Twitter"
-            >
-              <FaTwitter />
-            </a>
-            <a
-              href="https://facebook.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Facebook"
-            >
-              <FaFacebookF />
-            </a>
-          </div>
+
         </div>
 
         {/* ========== COLUMNA 2: NAVEGACIÓN ========== */}
@@ -90,46 +61,22 @@ export default function Footer() {
         <div className="Footer-column">
           <h3>Contacto</h3>
           <ul className="Footer-contact">
-            <li>
-              <FaMapMarkerAlt />
-              <span>Av. Corrientes 1234, CABA</span>
-            </li>
-            <li>
-              <FaPhoneAlt />
-              <span>+54 11 1234-5678</span>
-            </li>
-            <li>
-              <FaEnvelope />
-              <span>hola@perfumes.com</span>
-            </li>
+            <li><FaEnvelope /><a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a></li>
           </ul>
         </div>
 
         {/* ========== COLUMNA 4: NEWSLETTER ========== */}
         <div className="Footer-column">
-          <h3>Newsletter</h3>
-          <p className="Footer-newsletter-text">
-            Enterate de lanzamientos y ofertas exclusivas.
-          </p>
-          <form
-            className="Footer-newsletter"
-            onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="email"
-              placeholder="Tu email"
-              aria-label="Tu email"
-              required
-            />
-            <button type="submit">Suscribirme</button>
-          </form>
+          <h3>¿Necesitás ayuda?</h3>
+          <p className="Footer-newsletter-text">Consultanos sobre las fragancias o el estado de tu pedido.</p>
+          <Link to="/contacto" className="btn-secondary">Escribinos</Link>
         </div>
       </div>
 
       {/* ========== BARRA INFERIOR ========== */}
       <div className="Footer-bottom">
         <p>
-          © {year} Perfumes. Todos los derechos reservados.
+          © {year} PureFragance. Todos los derechos reservados.
         </p>
         <p className="Footer-made">
           Hecho con <FaHeart className="Footer-heart" /> en Argentina
