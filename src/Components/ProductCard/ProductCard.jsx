@@ -1,5 +1,4 @@
 // src/Components/ProductCard/ProductCard.jsx
-import { useState } from 'react';
 import { FaStar, FaHeart, FaRegHeart, FaShoppingBag } from 'react-icons/fa';
 import { useCart } from '../../hooks/useCart';
 import { useFavorites } from '../../hooks/useFavorites';
@@ -31,6 +30,7 @@ export default function ProductCard({ product, formatPrice, onClick }) {
         <img src={product.image} alt={product.name} loading="lazy" />
 
         <div className="ProductCard-tags">
+          {product.stock <= 0 && <span className="ProductCard-tag">Sin stock</span>}
           {product.isNew && <span className="ProductCard-tag new">Nuevo</span>}
           {product.isSale && <span className="ProductCard-tag sale">Oferta</span>}
         </div>
@@ -45,6 +45,7 @@ export default function ProductCard({ product, formatPrice, onClick }) {
 
         <button
           className="ProductCard-addToCart"
+          disabled={product.stock <= 0}
           onClick={handleAddToCart}
           aria-label="Agregar al carrito"
         >
@@ -75,3 +76,4 @@ export default function ProductCard({ product, formatPrice, onClick }) {
     </article>
   );
 }
+

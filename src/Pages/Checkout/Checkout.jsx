@@ -1,5 +1,6 @@
 // src/Pages/Checkout/Checkout.jsx
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import api from '../../services/api';
 import { useNavigate, Navigate } from 'react-router-dom';
 import {
     FaArrowLeft,
@@ -18,11 +19,9 @@ import {
 } from 'react-icons/fa';
 import { useCart } from '../../hooks/useCart';
 import { useAuth } from '../../hooks/useAuth';
-import { saveOrder } from '../../utils/orders';
 import './Checkout.css';
 import { createOrder } from '../../services/ordersService';
 import { createPaymentPreference } from '../../services/paymentService';
-import { toasts } from '../../utils/toast';
 import toast from 'react-hot-toast';
 
 // ============================================================
@@ -71,10 +70,10 @@ const PAYMENT_METHODS = [
 
 export default function Checkout() {
     const navigate = useNavigate();
-    const { user, isGuest, isAuthenticated } = useAuth();
+    const { user, isGuest } = useAuth();
     const {
         items,
-        subtotal,
+        subtotal: cartSubtotal,
         isEmpty,
         clearCart,
     } = useCart();
@@ -97,11 +96,31 @@ export default function Checkout() {
     const [paymentMethod, setPaymentMethod] = useState('card');
     const [errors, setErrors] = useState({});
     const [submitting, setSubmitting] = useState(false);
+    const [couponInput, setCouponInput] = useState('');
+    const [couponCode, setCouponCode] = useState('');
+    const [quoteResult, setQuoteResult] = useState(null);
+    const [quoteError, setQuoteError] = useState('');
+    const [quoteLoading, setQuoteLoading] = useState(false);
+    const [refreshQuote, setRefreshQuote] = useState(0);
+    const quoteKey = JSON.stringify({ items: items.map(i => ({ productId: i.productId, ml: i.ml, quantity: i.quantity })), shippingMethod, paymentMethod, couponCode });
+    const quote = quoteResult?.key === quoteKey ? quoteResult.data : null;
+    useEffect(() => {
+        if (!items.length) return;
+        let active = true;
+        Promise.resolve().then(() => { if (active) { setQuoteLoading(true); setQuoteError(''); } });
+        api.post('/coupons/quote', JSON.parse(quoteKey)).then(({ data }) => {
+            if (active) setQuoteResult({ key: quoteKey, data: data.quote });
+        }).catch(e => {
+            if (active) { setQuoteResult(null); setQuoteError(e.response?.data?.message || 'No se pudo verificar el carrito'); }
+        }).finally(() => { if (active) setQuoteLoading(false); });
+        return () => { active = false; };
+    }, [quoteKey, refreshQuote, items.length]);
+
 
     // ============================================================
     // GUARDS
     // ============================================================
-    if (isEmpty) {
+    if (isEmpty && !submitting) {
         return <Navigate to="/carrito" replace />;
     }
 
@@ -141,17 +160,12 @@ export default function Checkout() {
     // ============================================================
     // CÁLCULOS
     // ============================================================
-    const shippingCost = SHIPPING_METHODS.find(
-        (m) => m.id === shippingMethod
-    )?.cost ?? 0;
-
-    const freeShipping = subtotal >= 30000 && shippingMethod === 'standard';
-    const actualShipping = freeShipping ? 0 : shippingCost;
-
-    const transferDiscount =
-        paymentMethod === 'transfer' ? subtotal * 0.1 : 0;
-
-    const total = subtotal + actualShipping - transferDiscount;
+    const freeShipping = (quote?.subtotal ?? cartSubtotal) >= 30000 && shippingMethod === 'standard';
+    const subtotal = quote?.subtotal ?? cartSubtotal;
+    const actualShipping = quote?.shipping ?? (shippingMethod === 'express' ? 3500 : subtotal >= 30000 ? 0 : 1500);
+    const transferDiscount = quote?.transferDiscount ?? (paymentMethod === 'transfer' ? subtotal * .1 : 0);
+    const couponDiscount = quote?.couponDiscount ?? 0;
+    const total = quote?.total ?? subtotal + actualShipping - transferDiscount;
 
     const formatPrice = (price) =>
         new Intl.NumberFormat('es-AR', {
@@ -173,6 +187,7 @@ export default function Checkout() {
             return;
         }
 
+        if (!quote || quoteLoading) { toast.error(quoteError || 'Esperá la verificación del carrito'); return; }
         setSubmitting(true);
 
         try {
@@ -189,11 +204,13 @@ export default function Checkout() {
             // ============================================================
             // Crear preferencia de pago en Mercado Pago
             // ============================================================
-            const result = await createPaymentPreference({
+            const orderData = {
                 items: orderItems,
                 subtotal,
                 shipping: actualShipping,
-                discount: transferDiscount,
+                discount: transferDiscount + couponDiscount,
+                couponCode,
+                expectedTotal: quote.total,
                 total,
                 shippingMethod,
                 paymentMethod,
@@ -207,15 +224,22 @@ export default function Checkout() {
                     zipCode: form.zipCode,
                     notes: form.notes,
                 },
-            });
+            };
+            if (paymentMethod !== 'card') {
+                const order = await createOrder(orderData);
+                localStorage.setItem('lastOrder', JSON.stringify(order));
+                clearCart(true);
+                navigate('/checkout/success');
+                return;
+            }
+            const result = await createPaymentPreference(orderData);
 
             // ============================================================
             // Guardar datos de la orden para después
             // ============================================================
             localStorage.setItem('pendingOrderId', result.orderId);
 
-            // Vaciar carrito (el pago ya está en proceso)
-            clearCart(true);
+            // Keep the cart until the backend confirms the payment.
 
             // ============================================================
             // Redirigir a Mercado Pago (sandbox para desarrollo)
@@ -230,6 +254,7 @@ export default function Checkout() {
             toast.error(
                 error.response?.data?.message || 'Error al iniciar el pago'
             );
+            setRefreshQuote(v => v + 1);
             setSubmitting(false);
         }
     };
@@ -510,7 +535,7 @@ export default function Checkout() {
                                     <span className="Checkout-summaryItemSize">{item.ml} ml</span>
                                 </div>
                                 <span className="Checkout-summaryItemPrice">
-                                    {formatPrice(item.price * item.quantity)}
+                                    {formatPrice((quote?.items.find(i => i.productId === item.productId && i.ml === item.ml)?.price ?? item.price) * item.quantity)}
                                 </span>
                             </div>
                         ))}
@@ -518,6 +543,15 @@ export default function Checkout() {
 
                     <div className="Checkout-summaryDivider" />
 
+                    <div className="Checkout-coupon">
+                        <label htmlFor="coupon-code">Cupón de descuento</label>
+                        <div><input id="coupon-code" value={couponInput} maxLength={30} placeholder="Ingresá tu código" onChange={e => setCouponInput(e.target.value.toUpperCase())} />
+                        <button type="button" className="btn-secondary" disabled={quoteLoading || submitting} onClick={() => { setCouponCode(couponInput.trim()); setRefreshQuote(v => v+1); }}>Aplicar</button></div>
+                        {couponCode && <button type="button" onClick={() => { setCouponCode(''); setCouponInput(''); }}>Quitar cupón {couponCode}</button>}
+                        {quoteLoading && <p role="status">Verificando precios y stock…</p>}
+                        {quoteError && <p role="alert">{quoteError} <button type="button" onClick={() => setRefreshQuote(v => v+1)}>Reintentar</button></p>}
+                        {couponDiscount > 0 && <p role="status">Cupón aplicado: −{formatPrice(couponDiscount)}</p>}
+                    </div>
                     {/* Totales */}
                     <div className="Checkout-summaryRow">
                         <span>Subtotal</span>
@@ -540,6 +574,7 @@ export default function Checkout() {
 
                     <div className="Checkout-summaryDivider" />
 
+                    {couponDiscount > 0 && <div className="Checkout-summaryRow is-discount"><span>Cupón {couponCode}</span><span>−{formatPrice(couponDiscount)}</span></div>}
                     <div className="Checkout-summaryRow Checkout-summaryTotal">
                         <span>Total</span>
                         <span>{formatPrice(total)}</span>
@@ -548,7 +583,7 @@ export default function Checkout() {
                     <button
                         type="submit"
                         className="btn-primary Checkout-submit"
-                        disabled={submitting}
+                        disabled={submitting || quoteLoading || !quote}
                     >
                         {submitting ? (
                             'Procesando...'
@@ -578,3 +613,4 @@ export default function Checkout() {
         </div>
     );
 }
+

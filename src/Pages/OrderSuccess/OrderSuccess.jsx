@@ -1,6 +1,8 @@
 // src/Pages/OrderSuccess/OrderSuccess.jsx
 import { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { useCart } from '../../hooks/useCart';
 import { fetchOrderById } from '../../services/ordersService';
 import {
   FaCheckCircle,
@@ -15,6 +17,8 @@ import './OrderSuccess.css';
 
 export default function OrderSuccess() {
   const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
+  const { clearCart } = useCart();
    const [searchParams] = useSearchParams();
   const orderId = searchParams.get('order_id');
 
@@ -22,42 +26,26 @@ export default function OrderSuccess() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!orderId) {
-      // Si no hay order_id en la URL, tratamos de usar la guardada
-      const saved = localStorage.getItem('lastOrder');
-      if (saved) {
-        setOrder(JSON.parse(saved));
-        setLoading(false);
-        return;
-      }
-      navigate('/', { replace: true });
-      return;
-    }
-
+    let active = true;
     async function load() {
+      setLoading(true);
       try {
-        const data = await fetchOrderById(orderId);
-        setOrder(data);
-        localStorage.setItem('lastOrder', JSON.stringify(data));
-      } catch (err) {
-        console.error('Error cargando orden:', err);
-      } finally {
-        setLoading(false);
-      }
+        if (orderId && isAuthenticated) {
+          const data = await fetchOrderById(orderId);
+          if (active) { setOrder(data); localStorage.setItem('lastOrder', JSON.stringify(data)); }
+        } else {
+          const saved = JSON.parse(localStorage.getItem('lastOrder') || 'null');
+          if (active && saved && (!orderId || saved._id === orderId)) setOrder(saved);
+        }
+      } catch (err) { console.error('Error cargando orden:', err); }
+      finally { if (active) setLoading(false); }
     }
     load();
-  }, [orderId, navigate]);
-
+    return () => { active = false; };
+  }, [orderId, isAuthenticated]);
   useEffect(() => {
-    const saved = localStorage.getItem('lastOrder');
-    if (!saved) {
-      navigate('/', { replace: true });
-      return;
-    }
-    setOrder(JSON.parse(saved));
-  }, [navigate]);
-
-  if (!order) return null;
+    if (order?.paymentMethod === 'card' && order.paymentStatus === 'approved') clearCart(true);
+  }, [order?._id, order?.paymentStatus, order?.paymentMethod, clearCart]);
 
   const formatDate = (iso) =>
     new Date(iso).toLocaleDateString('es-AR', {
@@ -66,7 +54,7 @@ export default function OrderSuccess() {
       year: 'numeric',
     });
 
-  const date = order.createdAt || order.date;
+  const date = order?.createdAt || order?.date;
 
   if (loading) {
     return (
@@ -78,6 +66,8 @@ export default function OrderSuccess() {
     )
   }
 
+  if (!order) return <div className="OrderSuccess"><p>El pago está en proceso. Revisá el estado desde Mis pedidos si tenés una cuenta.</p><button className="btn-primary" onClick={() => navigate('/pedidos')}>Ver mis pedidos</button></div>;
+
   return (
     <div className="OrderSuccess">
       <div className="OrderSuccess-card">
@@ -87,7 +77,7 @@ export default function OrderSuccess() {
 
         <h1 className="OrderSuccess-title">¡Gracias por tu compra!</h1>
         <p className="OrderSuccess-subtitle">
-          Tu pedido fue confirmado y ya está siendo preparado.
+          {order.stockStatus === 'unavailable' ? 'Recibimos el pago. Tu pedido requiere revisión de disponibilidad.' : order.paymentStatus === 'approved' ? 'Tu pago fue confirmado y tu pedido está siendo preparado.' : 'Recibimos tu pedido. El pago todavía está pendiente de confirmación.'}
         </p>
 
         <div className="OrderSuccess-orderNumber">
@@ -129,14 +119,14 @@ export default function OrderSuccess() {
           <div className="OrderSuccess-summaryRow">
             <FaEnvelope />
             <div>
-              <span>Confirmación enviada a</span>
+              <span>Email de contacto</span>
               <strong>{order.customer?.email}</strong>
             </div>
           </div>
         </div>
 
         <div className="OrderSuccess-total">
-          <span>Total abonado</span>
+          <span>{order.paymentStatus === 'approved' ? 'Total abonado' : 'Total del pedido'}</span>
           <strong>{formatPrice(order.total)}</strong>
         </div>
 
@@ -162,3 +152,4 @@ export default function OrderSuccess() {
     </div>
   );
 }
+

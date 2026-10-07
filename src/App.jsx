@@ -37,6 +37,8 @@ import Dashboard from './Pages/Admin/Dashboard';
 import AdminProducts from './Pages/Admin/AdminProducts';
 import AdminProductForm from './Pages/Admin/AdminProductForm';
 import AdminOrders from './Pages/Admin/AdminOrders';
+import AdminCoupons from './Pages/Admin/AdminCoupons';
+import InstallApp from './Components/InstallApp/InstallApp';
 import Pending from './Pages/Checkout/Pending';
 // estilos
 import './App.css';
@@ -109,6 +111,7 @@ function AppContent() {
             element={<AdminProductForm />}
           />
           <Route path="pedidos" element={<AdminOrders />} />
+          <Route path="cupones" element={<AdminCoupons />} />
         </Route>
       </Route>
 
@@ -132,6 +135,7 @@ export default function App() {
             <div className="App-container">
               <Router>
                 <AppContent />
+                <InstallApp />
               </Router>
               {/* 👇 Toaster global */}
               <Toaster

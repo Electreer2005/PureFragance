@@ -1,7 +1,10 @@
 // src/context/CartContext.jsx
 import { createContext, useState, useEffect, useCallback, useMemo } from 'react';
+import toast from 'react-hot-toast';
 import { toasts } from '../utils/toast';
 
+// Context and provider intentionally share this module.
+// eslint-disable-next-line react-refresh/only-export-components
 export const CartContext = createContext(null);
 
 // ============================================================
@@ -16,21 +19,13 @@ const STORAGE_KEY = 'cart';
 const makeItemId = (productId, ml) => `${productId}-${ml}`;
 
 export function CartProvider({ children }) {
-  const [items, setItems] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  // ============================================================
-  // CARGAR DESDE LOCALSTORAGE AL MONTAR
-  // ============================================================
-  useEffect(() => {
+  const [items, setItems] = useState(() => {
     try {
-      const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) setItems(JSON.parse(saved));
-    } catch (err) {
-      console.error('Error cargando carrito:', err);
-    }
-    setLoading(false);
-  }, []);
+      const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+      return Array.isArray(saved) ? saved : [];
+    } catch { return []; }
+  });
+  const loading = false;
 
   // ============================================================
   // PERSISTIR EN LOCALSTORAGE CUANDO CAMBIA
@@ -45,7 +40,8 @@ export function CartProvider({ children }) {
   // AGREGAR AL CARRITO
   // ============================================================
   const addToCart = useCallback((product, ml, quantity = 1) => {
-    const size = product.sizes?.find((s) => s.ml === ml);
+    if (product.stock <= 0) { toast.error('Producto sin stock'); return; }
+    const size = product.sizes?.find((s) => s.ml === ml) || (!product.sizes?.length && ml === 100 ? { ml, price: product.price } : null);
     if (!size) {
       console.warn('Tamaño no encontrado:', ml);
       return;
@@ -54,6 +50,8 @@ export function CartProvider({ children }) {
     const itemId = makeItemId(product._id, ml);
 
     setItems((prev) => {
+      const inCart = prev.filter(i => i.productId === product._id).reduce((n,i) => n+i.quantity,0);
+      if (inCart + quantity > product.stock) return prev;
       const existing = prev.find((i) => i.itemId === itemId);
 
       if (existing) {
@@ -78,7 +76,7 @@ export function CartProvider({ children }) {
           image: product.image,
           ml,
           price: size.price,
-          quantity,
+          quantity: Math.min(quantity, 10, product.stock),
         },
       ];
     });
@@ -95,13 +93,12 @@ export function CartProvider({ children }) {
     });
   }, []);
 
-  const clearCart = useCallback(() => {
+  const clearCart = useCallback((silent = false) => {
     setItems([]);
-    toasts.cartCleared();
+    if (!silent) toasts.cartCleared();
   }, []);
 
 
-  const makeItemId = (productId, ml) => `${productId}-${ml}`;
 
 
 
