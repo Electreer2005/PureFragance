@@ -14,7 +14,7 @@ test('perfil carga datos reales y guarda nombre, email y contraseña en la API',
  }else if(path.endsWith('/auth/password')){
   passwordBody=req.postDataJSON();
   if(passwordBody.currentPassword==='wrong'){status=403;data={message:'Contraseña actual incorrecta'};}else data={message:'Contraseña actualizada'};
- }else if(path.endsWith('/orders'))data={count:2,orders:[]};
+ }else if(path.endsWith('/orders/mine'))data={count:2,orders:[]};
  else if(path.endsWith('/products'))data={products:[]};
  await route.fulfill({status,contentType:'application/json',body:JSON.stringify(data)});
  });

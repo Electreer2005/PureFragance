@@ -27,7 +27,7 @@ export default function Profile() {
   useEffect(() => {
     if (!isAuthenticated) return;
     let active = true;
-    api.get('/orders').then(({ data }) => {
+    api.get('/orders/mine').then(({ data }) => {
       if (active) setOrdersState({ count: data.count ?? data.orders.length, error: '' });
     }).catch(error => {
       if (active) setOrdersState({ count: null, error: error.response?.data?.message || 'No se pudo cargar el resumen de pedidos' });
