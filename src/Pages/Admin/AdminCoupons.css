@@ -1,0 +1,6 @@
+.AdminCoupons {max-width:1000px;margin:auto;display:grid;gap:24px}
+.AdminCoupons-form {display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;padding:24px;background:var(--color-bg-elevated);border:1px solid var(--color-border);border-radius:16px}
+.AdminCoupons-form label {display:grid;gap:8px;font-size:.9rem}
+.AdminCoupons input,.AdminCoupons select {width:100%;padding:12px;border:1px solid var(--color-border);border-radius:8px;color:var(--color-text);background:var(--color-bg)}
+.AdminCoupons-list {display:grid;gap:12px}.AdminCoupons-list article {display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:20px;border:1px solid var(--color-border);border-radius:12px}
+.AdminCoupons-list article strong {color:var(--gold-500)}

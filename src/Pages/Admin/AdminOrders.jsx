@@ -1,6 +1,6 @@
 // src/Pages/Admin/AdminOrders.jsx
+import api from '../../services/api';
 import { useState, useEffect, useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
 import {
   FaSearch,
   FaUser,
@@ -38,7 +38,6 @@ const FILTERS = [
 ];
 
 export default function AdminOrders() {
-  const navigate = useNavigate();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -51,7 +50,11 @@ export default function AdminOrders() {
   // CARGAR
   // ============================================================
   useEffect(() => {
-    load();
+    let active = true;
+    fetchAllOrders().then(data => { if (active) setOrders(data); })
+      .catch(err => { if (active) setError(err.response?.data?.message || 'Error al cargar pedidos'); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
   }, []);
 
   async function load() {
@@ -107,6 +110,17 @@ export default function AdminOrders() {
   }
 };
 
+  async function updatePayment(order, stock = false) {
+    if (!stock && !window.confirm('¿Confirmás que recibiste el pago de este pedido?')) return;
+    setUpdatingId(order._id);
+    try {
+      const { data } = await api.put(`/orders/${order._id}/${stock ? 'stock' : 'payment'}`);
+      setOrders(prev => prev.map(o => o._id === order._id ? data.order : o));
+      toast.success(data.order.stockStatus === 'unavailable' ? 'Todavía falta stock' : 'Pedido actualizado');
+    } catch (e) { toast.error(e.response?.data?.message || 'No se pudo confirmar'); }
+    finally { setUpdatingId(null); }
+  }
+
   // ============================================================
   // HELPERS
   // ============================================================
@@ -132,6 +146,7 @@ export default function AdminOrders() {
 
   return (
     <div className="AdminOrders">
+      {error && <p role="alert">{error} <button onClick={load}>Reintentar</button></p>}
       {/* HEADER */}
       <div className="AdminOrders-header">
         <div>
@@ -203,7 +218,8 @@ export default function AdminOrders() {
                 key={order._id}
                 className={`AdminOrderCard ${isExpanded ? 'is-expanded' : ''}`}
               >
-                {/* HEADER */}
+                {error && <p role="alert">{error} <button onClick={load}>Reintentar</button></p>}
+      {/* HEADER */}
                 <div className="AdminOrderCard-header">
                   <div className="AdminOrderCard-left">
                     <span className="AdminOrderCard-number">
@@ -295,6 +311,12 @@ export default function AdminOrders() {
                       {/* Columna pago */}
                       <div className="AdminOrderCard-col">
                         <h4>Pago</h4>
+                        <p>Estado: {order.paymentStatus === 'approved' ? 'Pagado' : order.paymentStatus === 'refunded' ? 'Reembolsado' : 'Pendiente / no aprobado'}</p>
+                        {order.couponCode && <p>Cupón: {order.couponCode}</p>}
+                        {order.stockStatus === 'unavailable' && <p role="alert">Pago recibido, stock insuficiente. Reponé y reintentá o gestioná la cancelación y el reembolso.</p>}
+                        {order.stockStatus === 'unavailable' && order.status !== 'cancelled' && <button className="btn-secondary" disabled={updatingId === order._id} onClick={() => updatePayment(order, true)}>Reintentar descuento de stock</button>}
+                        {order.paymentMethod !== 'card' && order.paymentStatus !== 'approved' && order.paymentStatus !== 'refunded' && order.status !== 'cancelled' && <button className="btn-primary" disabled={updatingId === order._id} onClick={() => updatePayment(order)}>Confirmar pago recibido</button>}
+                        {order.status === 'cancelled' && order.paymentStatus === 'approved' && <p>Cancelado con pago recibido: gestioná el reembolso por el medio de pago.</p>}
                         <p>
                           {order.paymentMethod === 'card' && 'Tarjeta'}
                           {order.paymentMethod === 'transfer' &&

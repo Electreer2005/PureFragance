@@ -528,3 +528,5 @@
     font-size: 1rem;
   }
 }
+
+.Checkout-coupon {display:grid;gap:12px;margin:20px 0}.Checkout-coupon>div {display:flex;gap:8px;flex-wrap:wrap}.Checkout-coupon input {min-width:0;flex:1;padding:12px;border:1px solid var(--color-border);border-radius:8px;background:var(--color-bg);color:var(--color-text)}

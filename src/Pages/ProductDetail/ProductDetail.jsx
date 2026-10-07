@@ -17,6 +17,7 @@ import {
   FaChevronLeft,
   FaChevronRight,
 } from 'react-icons/fa';
+import Reviews from '../../Components/Reviews/Reviews';
 import ProductCard from '../../Components/ProductCard/ProductCard';
 import { useCart } from '../../hooks/useCart';
 import { useFavorites } from '../../hooks/useFavorites';
@@ -32,6 +33,7 @@ export default function ProductDetail() {
   const { isFavorite, toggleFavorite } = useFavorites();
   const { product, loading, error } = useProduct(id);
 
+  const [reviewSummary, setReviewSummary] = useState(null);
   const [addedFeedback, setAddedFeedback] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState(0);
@@ -42,10 +44,11 @@ export default function ProductDetail() {
   // RESET AL CAMBIAR DE PRODUCTO
   // ============================================================
   useEffect(() => {
-    setSelectedImage(0);
-    setSelectedSize(0);
-    setQuantity(1);
+    // Reset state in a microtask so the next product renders with its own selection.
+    let active = true;
+    Promise.resolve().then(() => { if (active) { setSelectedImage(0); setSelectedSize(0); setQuantity(1); } });
     window.scrollTo({ top: 0, behavior: 'smooth' });
+    return () => { active = false; };
   }, [id]);
 
   // ============================================================
@@ -121,13 +124,14 @@ export default function ProductDetail() {
   // HANDLERS
   // ============================================================
   const handleAddToCart = () => {
+    if (product.stock < quantity) return;
     addToCart(product, currentSize.ml, quantity);
     setAddedFeedback(true);
     setTimeout(() => setAddedFeedback(false), 2000);
   };
 
   const handleQuantity = (delta) => {
-    setQuantity((q) => Math.max(1, Math.min(10, q + delta)));
+    setQuantity((q) => Math.max(1, Math.min(10, product.stock, q + delta)));
   };
 
   const nextImage = () => {
@@ -204,11 +208,11 @@ export default function ProductDetail() {
 
           <div className="ProductDetail-rating">
             <div className="ProductDetail-stars">
-              {renderRating(product.rating)}
+              {renderRating(reviewSummary?.productId === id ? reviewSummary.rating : product.rating)}
             </div>
-            <span className="ProductDetail-ratingValue">{product.rating}</span>
+            <span className="ProductDetail-ratingValue">{reviewSummary?.productId === id ? reviewSummary.rating : product.rating}</span>
             <span className="ProductDetail-reviews">
-              ({product.reviewsCount} reseñas)
+              ({reviewSummary?.productId === id ? reviewSummary.count : product.reviewsCount} reseñas)
             </span>
           </div>
 
@@ -254,7 +258,7 @@ export default function ProductDetail() {
               <span>{quantity}</span>
               <button
                 onClick={() => handleQuantity(1)}
-                disabled={quantity >= 10}
+                disabled={quantity >= Math.min(10, product.stock)}
                 aria-label="Sumar"
               >
                 <FaPlus />
@@ -263,9 +267,10 @@ export default function ProductDetail() {
 
             <button
               className={`btn-primary ProductDetail-addToCart ${addedFeedback ? 'is-added' : ''}`}
+              disabled={product.stock <= 0 || quantity > product.stock}
               onClick={handleAddToCart}
             >
-              {addedFeedback ? '✓ Agregado' : <><FaShoppingBag /> Agregar al carrito</>}
+              {product.stock <= 0 ? 'Sin stock' : addedFeedback ? '✓ Agregado' : <><FaShoppingBag /> Agregar al carrito</>}
             </button>
 
             <button
@@ -276,6 +281,8 @@ export default function ProductDetail() {
               {isFav ? <FaHeart /> : <FaRegHeart />}
             </button>
           </div>
+
+          <p role="status">{product.stock > 0 ? `${product.stock} unidades disponibles` : 'Producto agotado'}</p>
 
           {/* Beneficios */}
           <ul className="ProductDetail-benefits">
@@ -326,6 +333,8 @@ export default function ProductDetail() {
         </div>
       </div>
 
+      <Reviews key={id} productId={id} onSummary={setReviewSummary} />
+
       {/* ========== RELACIONADOS ========== */}
       {relatedProducts.length > 0 && (
         <section className="ProductDetail-related">
@@ -347,3 +356,4 @@ export default function ProductDetail() {
     </div>
   );
 }
+

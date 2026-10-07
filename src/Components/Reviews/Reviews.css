@@ -1,0 +1,4 @@
+.Reviews {display:grid;gap:18px;margin:48px 0;padding:clamp(18px,4vw,32px);border:1px solid var(--color-border);border-radius:16px;background:var(--color-bg-elevated)}
+.Reviews article {display:grid;gap:8px;padding:18px 0;border-bottom:1px solid var(--color-border)}
+.Reviews article span,.Reviews>p svg {color:var(--gold-500)}.Reviews p {line-height:1.6;white-space:pre-wrap;overflow-wrap:anywhere}
+.Reviews form {display:grid;gap:16px;max-width:650px}.Reviews label {display:grid;gap:8px}.Reviews textarea,.Reviews select {padding:12px;color:var(--color-text);background:var(--color-bg);border:1px solid var(--color-border);border-radius:8px;width:100%}.Reviews-pages {display:flex;align-items:center;gap:18px}
