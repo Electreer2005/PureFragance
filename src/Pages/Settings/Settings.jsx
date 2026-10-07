@@ -7,13 +7,10 @@ import {
     FaLock,
     FaEye,
     FaEyeSlash,
-    FaBell,
     FaMoon,
-    FaTrash,
     FaSave,
     FaArrowLeft,
     FaShieldAlt,
-    FaCheckCircle,
     FaExclamationTriangle,
 } from 'react-icons/fa';
 import { useAuth } from '../../hooks/useAuth';
@@ -25,40 +22,6 @@ import './Settings.css';
 export default function Settings() {
     const navigate = useNavigate();
     const { user, isGuest, loading, logout } = useAuth();
-    const { isDark, toggleTheme } = useTheme();
-    const [feedback, setFeedback] = useState(null);   
-
-    // Eliminá 'darkMode' del estado de preferences:
-    const [preferences, setPreferences] = useState({
-        newsletter: true,
-        orderUpdates: true,
-        promotions: false,
-        // darkMode: false,  ← eliminado
-    });
-
-    // ============================================================
-    // ESTADO DEL FORMULARIO
-    // ============================================================
-    const [profile, setProfile] = useState({
-        name: user?.name || '',
-        email: user?.email || '',
-    });
-
-    const [passwords, setPasswords] = useState({
-        current: '',
-        new: '',
-        confirm: '',
-    });
-
-    const [showPasswords, setShowPasswords] = useState({
-        current: false,
-        new: false,
-        confirm: false,
-    });
-
-    const [saving, setSaving] = useState(false);
-    const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
-
     // ============================================================
     // GUARDS
     // ============================================================
@@ -101,13 +64,17 @@ export default function Settings() {
         );
     }
 
-    // ============================================================
-    // HELPERS
-    // ============================================================
-    const showFeedback = (type, message) => {
-        setFeedback({ type, message });
-        setTimeout(() => setFeedback(null), 3000);
-    };
+    return <SettingsForm key={user.id} user={user} />;
+}
+
+function SettingsForm({ user }) {
+    const navigate = useNavigate();
+    const { updateProfile, changePassword } = useAuth();
+    const { isDark, toggleTheme } = useTheme();
+    const [profile, setProfile] = useState({ name: user.name || '', email: user.email || '' });
+    const [passwords, setPasswords] = useState({ current: '', new: '', confirm: '' });
+    const [showPasswords, setShowPasswords] = useState({ current: false, new: false, confirm: false });
+    const [saving, setSaving] = useState(false);
 
     const handleProfileChange = (e) => {
         const { name, value } = e.target;
@@ -121,10 +88,6 @@ export default function Settings() {
 
     const togglePasswordVisibility = (field) => {
         setShowPasswords((prev) => ({ ...prev, [field]: !prev[field] }));
-    };
-
-    const togglePreference = (key) => {
-        setPreferences((prev) => ({ ...prev, [key]: !prev[key] }));
     };
 
     // ============================================================
@@ -144,13 +107,10 @@ export default function Settings() {
         }
 
         setSaving(true);
-        await new Promise((r) => setTimeout(r, 800));
-
-        const updatedUser = { ...user, ...profile };
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-
+        const result = await updateProfile({ name: profile.name.trim(), email: profile.email.trim() });
         setSaving(false);
-        toasts.profileUpdated();
+        if (result.success) { setProfile({ name: result.user.name, email: result.user.email }); toasts.profileUpdated(); }
+        else toast.error(result.error);
     };
 
     const handlePasswordSubmit = async (e) => {
@@ -172,38 +132,10 @@ export default function Settings() {
         }
 
         setSaving(true);
-        await new Promise((r) => setTimeout(r, 800));
+        const result = await changePassword(passwords.current, passwords.new);
         setSaving(false);
-        setPasswords({ current: '', new: '', confirm: '' });
-        toasts.passwordUpdated();
-    };
-
-    const handlePreferencesSubmit = async () => {
-        setSaving(true);
-        await new Promise((r) => setTimeout(r, 500));
-        setSaving(false);
-        toasts.preferencesSaved();
-    };
-
-    // ============================================================
-    // SUBMIT PASSWORD
-    // ============================================================
-
-
-    // ============================================================
-    // SUBMIT PREFERENCIAS
-    // ============================================================
-
-    // ============================================================
-    // ELIMINAR CUENTA
-    // ============================================================
-    const handleDeleteAccount = async () => {
-        setSaving(true);
-        await new Promise((r) => setTimeout(r, 800));
-        localStorage.removeItem('user');
-        localStorage.removeItem('token');
-        setSaving(false);
-        navigate('/', { replace: true });
+        if (result.success) { setPasswords({ current: '', new: '', confirm: '' }); toasts.passwordUpdated(); }
+        else toast.error(result.error);
     };
 
     // ============================================================
@@ -234,24 +166,10 @@ export default function Settings() {
                         <span className="text-gold">Configuración</span>
                     </h1>
                     <p className="Settings-subtitle">
-                        Administrá tus datos, seguridad y preferencias
+                        Administrá tus datos, seguridad y apariencia
                     </p>
                 </div>
             </div>
-
-            {/* ============================================================
-          FEEDBACK
-          ============================================================ */}
-            {feedback && (
-                <div className={`Settings-feedback ${feedback.type}`}>
-                    {feedback.type === 'success' ? (
-                        <FaCheckCircle />
-                    ) : (
-                        <FaExclamationTriangle />
-                    )}
-                    <span>{feedback.message}</span>
-                </div>
-            )}
 
             {/* ============================================================
           DATOS PERSONALES
@@ -387,173 +305,14 @@ export default function Settings() {
                 </form>
             </section>
 
-            {/* ============================================================
-          PREFERENCIAS
-          ============================================================ */}
             <section className="Settings-section">
-                <h2 className="Settings-sectionTitle">
-                    <FaBell /> Preferencias
-                </h2>
-
-                <div className="Settings-toggles">
-                    <label className="Settings-toggle">
-                        <div className="Settings-toggleInfo">
-                            <FaBell />
-                            <div>
-                                <span className="Settings-toggleLabel">
-                                    Novedades y newsletter
-                                </span>
-                                <span className="Settings-toggleDesc">
-                                    Recibí lanzamientos y novedades
-                                </span>
-                            </div>
-                        </div>
-                        <input
-                            type="checkbox"
-                            checked={preferences.newsletter}
-                            onChange={() => togglePreference('newsletter')}
-                        />
-                        <span className="Settings-switch" />
-                    </label>
-
-                    <label className="Settings-toggle">
-                        <div className="Settings-toggleInfo">
-                            <FaBell />
-                            <div>
-                                <span className="Settings-toggleLabel">
-                                    Actualizaciones de pedidos
-                                </span>
-                                <span className="Settings-toggleDesc">
-                                    Avisos cuando tu pedido cambie de estado
-                                </span>
-                            </div>
-                        </div>
-                        <input
-                            type="checkbox"
-                            checked={preferences.orderUpdates}
-                            onChange={() => togglePreference('orderUpdates')}
-                        />
-                        <span className="Settings-switch" />
-                    </label>
-
-                    <label className="Settings-toggle">
-                        <div className="Settings-toggleInfo">
-                            <FaBell />
-                            <div>
-                                <span className="Settings-toggleLabel">
-                                    Promociones y descuentos
-                                </span>
-                                <span className="Settings-toggleDesc">
-                                    Ofertas exclusivas para vos
-                                </span>
-                            </div>
-                        </div>
-                        <input
-                            type="checkbox"
-                            checked={preferences.promotions}
-                            onChange={() => togglePreference('promotions')}
-                        />
-                        <span className="Settings-switch" />
-                    </label>
-
-                    <label className="Settings-toggle">
-                        <div className="Settings-toggleInfo">
-                            <FaMoon />
-                            <div>
-                                <span className="Settings-toggleLabel">Modo oscuro</span>
-                                <span className="Settings-toggleDesc">
-                                    Interfaz oscura para descansar la vista
-                                </span>
-                            </div>
-                        </div>
-                        <input
-                            type="checkbox"
-                            checked={isDark}
-                            onChange={toggleTheme}
-                        />
-                        <span className="Settings-switch" />
-                    </label>
-                </div>
-
-                <button
-                    className="btn-primary Settings-save"
-                    onClick={handlePreferencesSubmit}
-                    disabled={saving}
-                >
-                    <FaSave /> Guardar preferencias
-                </button>
+                <h2 className="Settings-sectionTitle"><FaMoon /> Apariencia</h2>
+                <label className="Settings-toggle">
+                    <span>Modo oscuro</span>
+                    <input type="checkbox" checked={isDark} onChange={toggleTheme} />
+                    <span className="Settings-switch" />
+                </label>
             </section>
-
-            {/* ============================================================
-          ZONA DE PELIGRO
-          ============================================================ */}
-            <section className="Settings-section Settings-danger">
-                <h2 className="Settings-sectionTitle Settings-dangerTitle">
-                    <FaExclamationTriangle /> Zona de peligro
-                </h2>
-
-                <div className="Settings-dangerContent">
-                    <div>
-                        <h3>Eliminar cuenta</h3>
-                        <p>
-                            Una vez eliminada, no vas a poder recuperar tu cuenta ni tus
-                            pedidos. Esta acción es permanente.
-                        </p>
-                    </div>
-
-                    <button
-                        className="Settings-deleteBtn"
-                        onClick={() => setShowDeleteConfirm(true)}
-                    >
-                        <FaTrash /> Eliminar mi cuenta
-                    </button>
-                </div>
-            </section>
-
-            {/* ============================================================
-          MODAL DE CONFIRMACIÓN DE ELIMINACIÓN
-          ============================================================ */}
-            {showDeleteConfirm && (
-                <div
-                    className="Settings-modalOverlay"
-                    onClick={() => setShowDeleteConfirm(false)}
-                >
-                    <div
-                        className="Settings-modal"
-                        onClick={(e) => e.stopPropagation()}
-                    >
-                        <div className="Settings-modalIcon">
-                            <FaExclamationTriangle />
-                        </div>
-
-                        <h3 className="Settings-modalTitle">
-                            ¿Eliminar tu cuenta?
-                        </h3>
-
-                        <p className="Settings-modalText">
-                            Esta acción es permanente. Vas a perder tu historial de pedidos,
-                            favoritos y datos personales.
-                        </p>
-
-                        <div className="Settings-modalActions">
-                            <button
-                                className="btn-secondary"
-                                onClick={() => setShowDeleteConfirm(false)}
-                                disabled={saving}
-                            >
-                                Cancelar
-                            </button>
-                            <button
-                                className="btn-danger"
-                                onClick={handleDeleteAccount}
-                                disabled={saving}
-                            >
-                                <FaTrash /> {saving ? 'Eliminando...' : 'Sí, eliminar'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
         </div>
     );
 }
