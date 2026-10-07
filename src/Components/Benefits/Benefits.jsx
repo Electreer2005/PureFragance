@@ -1,5 +1,5 @@
 // src/Components/Benefits/Benefits.jsx
-import { FaTruck, FaGift, FaShieldAlt, FaHeadset } from 'react-icons/fa';
+import { FaTruck, FaShieldAlt, FaHeadset } from 'react-icons/fa';
 import './Benefits.css';
 
 const BENEFITS = [
@@ -7,11 +7,6 @@ const BENEFITS = [
     icon: <FaTruck />,
     title: 'Envío gratis',
     text: 'En compras desde $100.000',
-  },
-  {
-    icon: <FaGift />,
-    title: 'Muestra de regalo',
-    text: 'Con cada compra recibís una muestra',
   },
   {
     icon: <FaShieldAlt />,
