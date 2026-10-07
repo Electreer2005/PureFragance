@@ -1,5 +1,5 @@
 // src/Pages/Welcome/Welcome.jsx
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import { FaUserSecret, FaSignInAlt, FaGem } from 'react-icons/fa';
 import Logo from '../../assets/Logo.jpeg';
@@ -34,6 +34,7 @@ export default function Welcome() {
         <p>Descubrí los mejores perfumes, seleccionados para vos, al mejor precio.</p>
 
         <div className="Welcome-buttons">
+          <Link className="btn-secondary" to="/productos">Ver catálogo de perfumes</Link>
           <button className="btn-primary" onClick={handleLogin}>
             <FaSignInAlt /> Iniciar sesión
           </button>
@@ -46,3 +47,4 @@ export default function Welcome() {
     </div>
   );
 }
+
