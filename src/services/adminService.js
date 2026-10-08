@@ -60,5 +60,5 @@ export const fetchAllOrders = async () => {
 
 export const updateOrderStatus = async (id, status) => {
   const { data } = await api.put(`/orders/${id}/status`, { status });
-  return data.order;
+  return data;
 };

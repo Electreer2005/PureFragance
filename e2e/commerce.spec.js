@@ -52,3 +52,32 @@ test('cupones, transferencia, reseñas y PWA sin caché de datos privados', asyn
 
  await context.close(); await pwa.close();
 });
+
+test('administración permite entrega pagada y distingue fallo de email del cambio guardado', async ({ page }) => {
+ const customer={fullName:'Cliente',email:'client@example.com',address:'Calle 123',city:'CABA',province:'Buenos Aires'};
+ let order={_id:'507f1f77bcf86cd799439012',orderNumber:'ORD-ADMIN',items:[],customer,total:10000,shipping:0,paymentMethod:'transfer',paymentStatus:'pending',stockStatus:'pending',status:'pending',createdAt:new Date().toISOString()};
+ await page.addInitScript(()=>{localStorage.setItem('token','test');localStorage.setItem('user',JSON.stringify({id:'u1',name:'Admin',role:'admin'}));});
+ await page.route('**/api/**',async route=>{
+  const request=route.request(), path=new URL(request.url()).pathname;
+  let data={};
+  if(path.endsWith('/payment')){order={...order,paymentStatus:'approved',stockStatus:'deducted'};data={order,notification:{sent:true}};}
+  else if(path.endsWith('/status')){assert.equal(request.postDataJSON().status,'delivered');order={...order,status:'delivered'};data={order,notification:{sent:false,message:'Resend rechazó el envío (HTTP 403, validation_error). Verificá un dominio propio.'}};}
+  else if(path.endsWith('/orders/all'))data={orders:[order]};
+  else if(path.endsWith('/products'))data={products:[]};
+  await route.fulfill({contentType:'application/json',body:JSON.stringify(data)});
+ });
+ await page.goto('http://127.0.0.1:4173/admin/pedidos');
+ const select=page.getByLabel('Estado del pedido ORD-ADMIN');
+ await select.waitFor();
+ assert.ok(await select.locator('option[value="delivered"]').isDisabled());
+ assert.ok(!(await select.locator('option[value="cancelled"]').isDisabled()));
+ await page.getByRole('button',{name:'Ver detalle'}).click();
+ page.on('dialog',dialog=>dialog.accept());
+ await page.getByRole('button',{name:'Confirmar pago recibido'}).click();
+ await page.getByText('Estado: Pagado',{exact:true}).waitFor();
+ assert.ok(!(await select.locator('option[value="delivered"]').isDisabled()));
+ await select.selectOption('delivered');
+ await page.getByRole('alert').filter({hasText:'El pedido se actualizó, pero no se pudo enviar el email.'}).waitFor();
+ assert.equal(await select.inputValue(),'delivered');
+ assert.ok(await select.isDisabled());
+});
