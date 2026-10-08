@@ -7,13 +7,14 @@ import {
   FaHome,
   FaSignOutAlt,
 } from 'react-icons/fa';
+import { BiSolidCoupon } from "react-icons/bi";
 import { useAuth } from '../../hooks/useAuth';
 import './AdminLayout.css';
 
 const NAV_ITEMS = [
   { to: '/admin', label: 'Dashboard', icon: <FaTachometerAlt />, exact: true },
   { to: '/admin/productos', label: 'Productos', icon: <FaBox /> },
-  { to: '/admin/cupones', label: 'Cupones', icon: <FaBox /> },
+  { to: '/admin/cupones', label: 'Cupones', icon: <BiSolidCoupon /> },
   { to: '/admin/pedidos', label: 'Pedidos', icon: <FaShoppingBag /> },
 ];
 
