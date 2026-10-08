@@ -15,6 +15,7 @@ import {
   FaCog,
 } from 'react-icons/fa';
 import { GiHamburgerMenu } from 'react-icons/gi';
+import { LuUserRoundCog } from "react-icons/lu";
 import { IoClose } from 'react-icons/io5';
 import { useAuth } from '../../hooks/useAuth';
 import { useCart } from '../../hooks/useCart';
@@ -179,7 +180,7 @@ export default function Header() {
                     }}
                     className="dropdown-admin"
                   >
-                    <FaCog /> Panel de admin
+                    <LuUserRoundCog /> Panel de admin
                   </button>
                 )}
 
